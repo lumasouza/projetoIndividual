@@ -1,0 +1,123 @@
+/* FONTE EXTERNA */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+* {
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar {
+    width: 12px;
+  }
+  
+::-webkit-scrollbar-track {
+    background: rgba(0,0,0, 0.2);
+  }
+  
+::-webkit-scrollbar-thumb {
+    background-color: #cf2b46;
+    border-radius: 20px;
+  }
+
+/* BACKGROUND */
+body {
+    overflow: overlay;
+    background: linear-gradient(68.15deg, #e099a5 15%, #ebc661 85.61%);
+    /* background-size: cover; */
+    /* background-repeat: no-repeat; */
+    background-attachment: fixed;
+    /* box-sizing: border-box; */
+    margin: 0;
+    padding: 0;
+}
+
+/* NAVBAR */
+#imgLogo {
+    margin-top: 15px;
+}
+
+.nav {
+    width: 100%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+}
+
+.header {
+    border-bottom: 3px solid #ebe1e9;
+    background-color: #0000004b;
+    align-items: center;
+}
+
+.header .nav {
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header a {
+    text-decoration: none;
+    color: #ebe1e9;
+}
+
+.navbar {
+    width: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    list-style: none;
+    background-color: #96217e;
+}
+
+a {
+    transition: all .3s ease-out ;
+}
+
+a:hover {
+    border-bottom: 3px solid #1972b2;
+}
+
+/* .login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1972b2;
+    border-radius: 15px;
+    width: 10vh;
+    height: 30px;
+    color: white;
+    transition: all .3s ease-out;
+}
+
+.cad {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1972b2;
+    border-radius: 15px;
+    width: 17vh;
+    height: 30px;
+    color: white;
+    transition: all .3s ease-out;
+}
+
+.login:hover, .cad:hover {
+    background-color: #cf2b46;
+    color: white;
+    
+} */
+
+/* CONTEUDO  home*/
+
+.conteudo1 {
+    display:flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.conteudo1 .textoTitulo {
+    font-size: xx-large;
+}
+
+#imgLogo {
+    width: 10%;
+}
