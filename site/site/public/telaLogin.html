@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+
+<body>
+    <div class="header">
+        <div class="nav">
+
+            <img id="imgLogo" src="assets/logoChazim2.png" src="">
+
+            <ul class="navbar">
+                <li><a href="#">Home</a></li>
+                <li><a class="login" href="./telaLogin.html">Login</a></li>
+                <li><a class="cad" href="./telaCadastro.html">Cadastre-se</a></li>
+            </ul>
+
+        </div>
+    </div>
+
+
+    <div class="containerCad">
+
+        <div class="card">
+
+            <h1>LOGIN</h1>
+
+                <div class="label-float">
+                    <input id="iptEmail" placeholder=" " required>
+                    <label for="iptEmail" id="labEmail">E-mail</label>
+                </div>
+
+
+                <div class="label-float">
+                    <input id="iptSenha" placeholder=" " required>
+                    <label for="iptSenha" id="labSenha">Senha</label>
+                </div>
+
+            <div id="divMsgErro" class="msgErro">
+            </div>
+
+            <div class="justify-center">
+                <button onclick="entrar()">Entrar</button>
+            </div>
+
+        </div>
+
+    </div>
+</body>
+
+</html>
+
+<script>
+    function entrar() {
+        var email = iptEmail.value;
+        var senha = iptSenha.value;
+
+        if (email == '' || senha == '') {
+            //           divErro.innerHTML = `Nome de usuário ou senha incorretos`
+            divErro.innerHTML = `Preencha todos os campos!`
+        } else {
+            //document.getElementById("btnEntrar").onclick = location.href = "./telaUsuario.html"
+        }
+
+        console.log("FORM LOGIN: ", email);
+        console.log("FORM SENHA: ", senha);
+
+        fetch("/usuarios/autenticar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                emailServer: email,
+                senhaServer: senha
+            })
+        }).then(function (resposta) {
+            console.log("ESTOU NO THEN DO entrar()!")
+
+            if (resposta.ok) {
+                console.log(resposta);
+
+                resposta.json().then(json => {
+                    console.log(json);
+                    console.log(JSON.stringify(json));
+
+                    sessionStorage.EMAIL_USUARIO = json.email;
+                    sessionStorage.NOME_USUARIO = json.nome;
+                    sessionStorage.ID_USUARIO = json.id;
+
+                    setTimeout(function () {
+                        window.location = "/telaUsuario.html";
+                    }, 1000); // apenas para exibir o loading
+
+                });
+
+            } else {
+
+                divErro.innerHTML = `E-mail ou senha incorretos!`
+
+                console.log("Houve um erro ao tentar realizar o login!");
+
+                resposta.text().then(texto => {
+                    console.error(texto);
+                    finalizarAguardar(texto);
+                });
+            }
+
+        }).catch(function (erro) {
+            console.log(erro);
+        })
+
+        return false;
+    }
+
+</script>
+
+<!-- <script>
+
+
+    function entrar() {
+        aguardar();
+
+        var emailVar = email_input.value;
+        var senhaVar = senha_input.value;
+
+        if (emailVar == "" || senhaVar == "") {
+            cardErro.style.display = "block"
+            mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)";
+            finalizarAguardar();
+            return false;
+        }
+        else {
+            setInterval(sumirMensagem, 5000)
+        }
+
+        console.log("FORM LOGIN: ", emailVar);
+        console.log("FORM SENHA: ", senhaVar);
+
+        fetch("/usuarios/autenticar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                emailServer: emailVar,
+                senhaServer: senhaVar
+            })
+        }).then(function (resposta) {
+            console.log("ESTOU NO THEN DO entrar()!")
+
+            if (resposta.ok) {
+                console.log(resposta);
+
+                resposta.json().then(json => {
+                    console.log(json);
+                    console.log(JSON.stringify(json));
+
+                    sessionStorage.EMAIL_USUARIO = json.email;
+                    sessionStorage.NOME_USUARIO = json.nome;
+                    sessionStorage.ID_USUARIO = json.id;
+
+                    setTimeout(function () {
+                        window.location = "./dashboard/cards.html";
+                    }, 1000); // apenas para exibir o loading
+
+                });
+
+            } else {
+
+                console.log("Houve um erro ao tentar realizar o login!");
+
+                resposta.text().then(texto => {
+                    console.error(texto);
+                    finalizarAguardar(texto);
+                });
+            }
+
+        }).catch(function (erro) {
+            console.log(erro);
+        })
+
+        return false;
+    }
+
+    function sumirMensagem() {
+        cardErro.style.display = "none"
+    }
+
+</script> -->

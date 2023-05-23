@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastre-se</title>
+</head>
+
+<body>
+    <div class="header">
+        <div class="nav">
+            <img id="imgLogo" src="assets/logoChazim2.png" src="">
+            <ul class="navbar">
+                <li><a href="#">Home</a></li>
+                <li><a class="login" href="./telaLogin.html">Login</a></li>
+                <li><a class="cad" href="./telaCadastro.html">Cadastre-se</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="containerCad">
+
+        <div class="card">
+
+            <h1>CADASTRE-SE</h1>
+
+            <div class="label-float">
+                <input id="iptNome" placeholder=" " required>
+                <label for="iptNome" id="labNome">Nome de exibição</label>
+            </div>
+
+            <div class="label-float">
+                <input id="iptEmail" placeholder=" " required>
+                <label for="iptEmail" id="labEmail">E-mail</label>
+            </div>
+
+
+            <div class="label-float">
+                <input id="iptSenha" placeholder=" " required>
+                <label for="iptSenha" id="labSenha">Senha</label>
+            </div>
+
+            <div class="label-float">
+                <input id="iptRepetirSenha" placeholder=" " required>
+                <label for="iptRepetirSenha" id="labRepetirSenha">Senha</label>
+            </div>
+
+            <div id="divMsgErro" class="msgErro">
+            </div>
+
+            <div class="justify-center">
+                <button onclick="cadastrar()">Cadastrar</button>
+            </div>
+
+        </div>
+
+    </div>
+</body>
+
+</html>
+
+<script>
+    function cadastrar() {
+        //aguardar();
+
+        var nome = iptNome.value;
+        var email = iptEmail.value;
+        var senha = iptSenha.value;
+        var repetirSenha = iptRepetirSenha.value;
+
+        if (nome == "" || email == "" || senha == "" || repetirSenha == "") {
+            divMsgErro.innerHTML = `Preencha todos os campos`;
+        } else if (repetirSenha != senha) {
+            divMsgErro.innerHTML = `Por favor, verifique a senha e tente novamente`;
+        } else {
+            divMsgErro.innerHTML = ``;
+            // Enviando o valor da nova input
+            fetch("/usuarios/cadastrar", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    // crie um atributo que recebe o valor recuperado aqui
+                    // Agora vá para o arquivo routes/usuario.js
+                    nomeServer: nome,
+                    emailServer: email,
+                    senhaServer: senha,
+                })
+            }).then(function (resposta) {
+    
+                console.log("resposta: ", resposta);
+    
+                if (resposta.ok) {
+    
+                    divMsgErro.innerHTML = 'Aguarde...'
+    
+                    setTimeout(() => {
+                        window.location = "telaLogin.html";
+                    }, "2000")
+
+                } else {
+                    throw ("Houve um erro ao tentar realizar o cadastro!");
+                }
+            }).catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+            });
+    
+            return false;
+        }
+
+    }
+
+</script>
+
+<!-- <script>
+    function cadastrar() {
+        aguardar();
+
+        //Recupere o valor da nova input pelo nome do id
+        // Agora vá para o método fetch logo abaixo
+        var cpfVar = cpf_input.value;
+        var nomeVar = nome_input.value;
+        var emailVar = email_input.value;
+        var senhaVar = senha_input.value;
+        var confirmacaoSenhaVar = confirmacao_senha_input.value;
+
+        if (nomeVar == "" || emailVar == "" || senhaVar == "" || confirmacaoSenhaVar == "" || cpfVar == "") {
+            cardErro.style.display = "block"
+            mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)";
+
+            finalizarAguardar();
+            return false;
+        }
+        else {
+            setInterval(sumirMensagem, 5000)
+        }
+
+        // Enviando o valor da nova input
+        fetch("/usuarios/cadastrar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                // crie um atributo que recebe o valor recuperado aqui
+                // Agora vá para o arquivo routes/usuario.js
+                nomeServer: nomeVar,
+                emailServer: emailVar,
+                senhaServer: senhaVar,
+                cpfServer: cpfVar
+            })
+        }).then(function (resposta) {
+
+            console.log("resposta: ", resposta);
+
+            if (resposta.ok) {
+                cardErro.style.display = "block";
+
+                mensagem_erro.innerHTML = "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+
+                setTimeout(() => {
+                    window.location = "login.html";
+                }, "2000")
+
+                limparFormulario();
+                finalizarAguardar();
+            } else {
+                throw ("Houve um erro ao tentar realizar o cadastro!");
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+            finalizarAguardar();
+        });
+
+        return false;
+    }
+
+    function sumirMensagem() {
+        cardErro.style.display = "none"
+    }
+
+</script> -->

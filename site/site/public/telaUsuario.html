@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="stylesheet" href="./style.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sua página</title>
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <div class="header">
+        <div class="nav">
+            <img id="imgLogo" src="assets/logoChazim2.png">
+            <ul class="navbar">
+                <li><a href="index.html">Home</a></li>
+                <li><a class="login" href="telaLogin.html">Login</a></li>
+                <li><a class="cad" href="telaCadastro.html">Cadastre-se</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+    <section class="container1"> 
+ <!-- CHÁS FAVORITOS -->
+ <div class="containerUser">
+
+    <div class="content1">
+        
+        <h1>Seus chás favoritos:</h1>
+
+        <div class="centralizar1">
+            <div id="divAdicionar">
+                <input class="chaFavorito" type="text" id="iptAddChaFav" placeholder="Pesquise seu chá favorito" required> <br>
+                <button class="butChaFavorito" onclick="addChaFav()">Adicionar</button>
+            </div>
+        </div>
+        <div id="divChasFav" class="chasFavoritos">
+            
+        </div>
+    </div>
+
+</div>
+
+
+<!-- REGISTRAR CONSUMO -->
+<div class="containerUser">
+
+    <div class="content1">
+
+        <h1>Últimos chás consumidos:</h1>
+
+        <div class="centralizar2">
+            <div class="">
+                <span>Chá:</span> <input id="iptCha"> <span>Xícaras:</span>  <input id="iptXicaras" type="number">  <span>Data:</span> <input id="iptData"
+                    type="date"> <br>
+                <button class="butChaConsumo" onclick="registrarConsumo()">Registrar consumo</button>
+            </div>
+        </div>
+
+        <div id="divRegistro">
+            aaaaaa
+            <!-- exibir tipo um select do banco de dados..... ou algo assim....... -->
+        </div>
+    </div>
+</div>
+
+
+    </section>
+   
+</body>
+
+</html>
+
+<script>
+    // Recuperar chás já existentes de uma lista
+    var listaCha = ['Camomila', 'Erva doce', 'Hortelã', 'Melissa'];
+
+    for (var i = 0; i < listaCha.length; i++) {
+        const chaAtual = listaCha[i];
+        divChasFav.innerHTML += `<li> ${chaAtual} </li>`
+    }
+
+    // Adicionar novo chá - verificar se já existe na lista
+    function addChaFav() {
+        var novoCha = iptAddChaFav.value;
+        var naoExisteCha = false;
+
+        // if (listaCha.indexOf(novoCha) > -1) {
+        //     listaCha.push(novoCha);
+        //     divChasFav.innerHTML += `<li> ${listaCha[listaCha.length - 1]} </li>`
+        // } else {
+        //     alert("Chá já existe na lista");
+        // }
+
+        for (var i = 0; i < listaCha.length; i++) {
+            const chaAtual = listaCha[i];
+            if (novoCha.toLowerCase() == chaAtual.toLowerCase()) {
+                alert("Chá já existe na lista");
+                var naoExisteCha = true;
+            }
+        }
+
+        if (naoExisteCha == false) {
+            listaCha.push(novoCha);
+            divChasFav.innerHTML += `<li> ${listaCha[listaCha.length - 1]} </li>`
+        }
+    }
+
+    // Registrar consumo de um chá
+    function registrarConsumo() {
+        var cha = iptCha.value;
+        var xicaras = Number(iptXicaras.value);
+        var data = iptData.value;
+
+        divRegistro.innerHTML += `<li> Chá: ${cha} - Xícaras: ${xicaras} - Data: ${data} </li>`
+    }
+</script>
