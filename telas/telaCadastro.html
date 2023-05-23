@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastre-se</title>
+</head>
+<body>
+    <div>CADASTRE-SE</div>
+    <div><input type="text" id="iptNickname" placeholder="Nome de usuário"></div>
+    <div><input type="text" id="iptExibicao" placeholder="Nome de exibição"></div>
+    <div><input type="text" id="iptEmail" placeholder="E-mail"></div>
+    <div><input type="password" id="iptSenha" placeholder="Senha"></div>
+    <div><input type="password" id="iptRepetirSenha" placeholder="Repita a sua senha"></div>
+    <div id="divErro"></div>
+    <div><button id="btnCadastrar" onclick="cadastrar()">Cadastre-se</button></div>
+</body>
+</html>
+
+<script>
+    function cadastrar() {
+        var exibicao = iptExibicao.value;
+        var email = iptEmail.value;
+        var senha = iptSenha.value;
+        var repetirSenha = iptRepetirSenha.value;
+
+        if (exibicao == "" || email == "" || senha == "" || repetirSenha == "") {
+            divErro.innerHTML = `Preencha todos os campos`;
+        } else if (repetirSenha != senha) {
+            divErro.innerHTML = `Por favor, verifique a senha e tente novamente`;
+        } else {
+            document.getElementById("btnCadastrar").onclick = location.href = "./telaLogin.html";
+        }
+    }
+</script>

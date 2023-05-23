@@ -63,18 +63,25 @@
         var novoCha = iptAddChaFav.value;
         var naoExisteCha = false;
 
-        for (var i = 0; i < listaCha.length; i++) {
-            const chaAtual = listaCha[i];
-            if (novoCha.toLowerCase() == chaAtual.toLowerCase()) {
-                alert("Chá já existe na lista");
-                var naoExisteCha = true;
-            }
-        }
-
-        if (naoExisteCha == false) {
+        if (listaCha.indexOf(novoCha.toLowerCase() > -1)) {
             listaCha.push(novoCha);
             divChasFav.innerHTML += `<li> ${listaCha[listaCha.length - 1]} </li>`
+        } else {
+            alert("Chá já existe na lista");
         }
+
+        // for (var i = 0; i < listaCha.length; i++) {
+        //     const chaAtual = listaCha[i];
+        //     if (novoCha.toLowerCase() == chaAtual.toLowerCase()) {
+        //         alert("Chá já existe na lista");
+        //         var naoExisteCha = true;
+        //     }
+        // }
+
+        // if (naoExisteCha == false) {
+        //     listaCha.push(novoCha);
+        //     divChasFav.innerHTML += `<li> ${listaCha[listaCha.length - 1]} </li>`
+        // }
     }
 
     // Registrar consumo de um chá
