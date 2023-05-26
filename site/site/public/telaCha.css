@@ -6,6 +6,12 @@
     font-family: 'Montserrat', sans-serif;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 /* SCROLLBAR */
 ::-webkit-scrollbar {
     width: 12px;
@@ -141,6 +147,7 @@ a:hover {
     width: 100vh;
 
     margin: 5vh;
+    margin-bottom: 0;
     padding: 5vh;
 }
 
@@ -174,8 +181,117 @@ a:hover {
     margin-bottom: 3vh;
 }
 
+.subtitulo2 {
+    text-align: start;
+    font-size: 3vh;
+    margin-top: 3vh;
+    margin-left: 3vh;
+    margin-bottom: 3vh;
+}
+
 .texto {
     text-align: start;
+    align-items: center;
+    display: flex;
+    font-size: 2.5vh;
     /* margin:  */
     /* margin: 2vh; */
+}
+
+#imgCha {
+    width: 30vh
+    ;
+}
+
+span {
+    margin-right: 6vh;
+}
+
+.topicos {
+    display: flex;
+    padding-left: 3vh;
+    margin-top: 4vh;
+}
+
+.fin {
+    margin: 0px 50px 0px 0;
+    background:linear-gradient(45deg, #1972b2, #96217e);
+    color:#dfe3ea;
+    padding: 3vh;
+    border-radius: 6vh;
+    width: auto;
+    transition: all .3s ease-out;
+}
+
+.fin:hover {
+    cursor: pointer;
+    background:linear-gradient(45deg, #4d92c3, #c663b2);
+    transition: all .3s ease-out;
+}
+
+#divPesquisaCha input {
+    width: 50%;
+    padding: 5px 5px 5px 0px;
+    display: inline-block;
+    border: 0;
+    border-bottom: 2px solid #dfe3ea;
+    color: #ffffff;
+    background-color: transparent;
+    outline: none;
+    min-width: auto;
+    font-size: 3vh;
+    color: white;
+    transition: all .3s ease-out;
+    border-radius: 0;
+    text-align: center;
+}
+
+#divProporcao input {
+        width: 60vh;
+        min-width: auto;
+        padding: 5px 5px 5px 0px;
+        display: inline-block;
+        border: 0;
+        border-bottom: 2px solid #dfe3ea;
+        color: #ffffff;
+        background-color: transparent;
+        outline: none;
+        font-size: 3vh;
+        color: white;
+        transition: all .3s ease-out;
+        border-radius: 0;
+        text-align: center;
+
+}
+
+#btnProporcao {
+    background:linear-gradient(45deg, #1972b2, #96217e);
+    color:#dfe3ea;
+    border-radius: 6vh;
+    border: none;
+    width: 35vh;
+    transition: all .3s ease-out;
+}
+
+#btnProporcao:hover {
+    cursor: pointer;
+    background:linear-gradient(45deg, #4d92c3, #c663b2);
+    transition: all .3s ease-out;
+}
+
+::placeholder {
+    color:white;
+    opacity: .7;
+}
+
+.proporcao {
+    /* display: flex; */
+    /* justify-content: center; */
+}
+
+footer {
+    height: 30vh;
+    margin-top: 5vh;
+    background-color:rgba(128, 0, 0, 0.365);
+    border-top: solid white 2px;
 }
