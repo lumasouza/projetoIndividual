@@ -40,16 +40,16 @@ body {
 
 /* NAVBAR */
 #imgLogo {
-    margin-top: 1%;
-    margin-bottom: 1%;
-    width: 10%;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    width: 18vh;
 }
 
 .header {
     border-bottom: 3px solid #ebe1e9;
     width: auto;
-    padding-left: 7.5%;
-    padding-right: 7.5%;
+    padding-left: 7.5vh;
+    padding-right: 7.5vh;
     background-color: #0000004b;
     justify-content: center;
     align-items: center;
@@ -63,13 +63,14 @@ body {
 
 .header a {
     text-decoration: none;
+    font-size: 2vh;
     color: #ebe1e9;
 }
 
 .navbar {
     margin: 0;
     padding: 0;
-    width: 30%;
+    width: 50vh;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
@@ -177,8 +178,7 @@ a:hover {
 .subtitulo {
     text-align: start;
     font-size: 3vh;
-    margin-left: 1vh;
-    margin-bottom: 3vh;
+    margin: 0vh 0vh 3vh 1vh;
 }
 
 .subtitulo2 {
@@ -194,13 +194,11 @@ a:hover {
     align-items: center;
     display: flex;
     font-size: 2.5vh;
-    /* margin:  */
-    /* margin: 2vh; */
+    margin: 0vh 0vh 3vh 1vh;
 }
 
 #imgCha {
-    width: 30vh
-    ;
+    width: 30vh;
 }
 
 span {
@@ -214,13 +212,14 @@ span {
 }
 
 .fin {
-    margin: 0px 50px 0px 0;
+    margin: 0px 50px 0px 0px;
     background:linear-gradient(45deg, #1972b2, #96217e);
     color:#dfe3ea;
     padding: 3vh;
     border-radius: 6vh;
     width: auto;
     transition: all .3s ease-out;
+    font-size: auto;
 }
 
 .fin:hover {
@@ -246,7 +245,7 @@ span {
     text-align: center;
 }
 
-#divProporcao input {
+.iptCoisas {
         width: 60vh;
         min-width: auto;
         padding: 5px 5px 5px 0px;
@@ -294,4 +293,43 @@ footer {
     margin-top: 5vh;
     background-color:rgba(128, 0, 0, 0.365);
     border-top: solid white 2px;
+}
+
+.divRegistro {
+    text-align: start;
+}
+
+.inputRegistro {
+        width: 25vh;
+        min-width: auto;
+        padding: 5px 5px 5px 0px;
+        margin-right: 3vh;
+        display: inline-block;
+        border: 0;
+        border-bottom: 2px solid #dfe3ea;
+        color: #ffffff;
+        background-color: transparent;
+        outline: none;
+        font-size: 2vh;
+        color: white;
+        transition: all .3s ease-out;
+        border-radius: 0;
+        /* text-align: center; */
+}
+
+#iptAddChaFav {
+    width: 35vh;
+    min-width: auto;
+    padding: 5px 5px 5px 0px;
+    margin-right: 3vh;
+    display: inline-block;
+    border: 0;
+    border-bottom: 2px solid #dfe3ea;
+    color: #ffffff;
+    background-color: transparent;
+    outline: none;
+    font-size: 2vh;
+    color: white;
+    transition: all .3s ease-out;
+    border-radius: 0;
 }

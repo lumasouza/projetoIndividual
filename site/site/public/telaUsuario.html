@@ -2,12 +2,29 @@
 <html lang="pt-br">
 
 <head>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./telaCha.css">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sua página</title>
+    <title>dashboard | cházim?</title>
 </head>
+
+<style>
+    .cha {
+        width: 10vh;
+        border-radius: 15vh;
+    }
+
+    .batata {
+        display: flex;
+        text-align: center;
+        align-items: center;
+    }
+
+    .chaFav {
+        margin: 0vh 2vh 0vh 2vh;
+    }
+</style>
 
 <body>
     <!-- NAVBAR -->
@@ -21,55 +38,129 @@
             </ul>
         </div>
     </div>
+    <!-- NAVBAR -->
 
 
-    <section class="container1"> 
- <!-- CHÁS FAVORITOS -->
- <div class="containerUser">
+    <div class="container">
 
-    <div class="content1">
+        <div class="conteudo">
+
+            <div class="pesquisa">
+
+                <div class="subtitulo" style="text-align: start;">Seus chás favoritos</div>
+
+                <div class="batata">
+
+                    <div class="chaFav">
+                        <div><img class="cha" src="assets/camomila.jpg" alt=""></div>
+                        <div>Camomila</div>
+                    </div>
+
+                    <div class="chaFav">
+                        <div><img class="cha" src="assets/erva_doce.jpg" alt=""></div>
+                        <div>Erva doce</div>
+                    </div>
+
+                    <div class="chaFav">
+                        <div><img class="cha" src="assets/melissa.jpg" alt=""></div>
+                        <div>Melissa</div>
+                    </div>
+
+                    <div class="chaFav">
+                        <div><img class="cha" src="assets/hibisco.jpg" alt=""></div>
+                        <div>Hibisco</div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="subtitulo" style="text-align: start;">
+                <input id="iptAddChaFav" type="text" placeholder="Adicione um novo chá favorito">
+                <button onclick="addChaFav()">Adicionar</button>
+            </div>
+            <div style="text-align: start;">ERRO!</div>
+
+        </div>
+
+    </div>
+    <!-- CHÁS FAVORITOS -->
+
+    <!-- <section class="container1">
         
-        <h1>Seus chás favoritos:</h1>
+        <div class="containerUser">
 
-        <div class="centralizar1">
-            <div id="divAdicionar">
-                <input class="chaFavorito" type="text" id="iptAddChaFav" placeholder="Pesquise seu chá favorito" required> <br>
-                <button class="butChaFavorito" onclick="addChaFav()">Adicionar</button>
-            </div>
-        </div>
-        <div id="divChasFav" class="chasFavoritos">
-            
-        </div>
-    </div>
+            <div class="content1">
 
-</div>
+                <h1>Seus chás favoritos:</h1>
 
+                <div class="centralizar1">
+                    <div id="divAdicionar">
+                        <input class="chaFavorito" type="text" id="iptAddChaFav" placeholder="Pesquise seu chá favorito"
+                            required> <br>
+                        <button class="butChaFavorito" onclick="addChaFav()">Adicionar</button>
+                    </div>
+                </div>
+                <div id="divChasFav" class="chasFavoritos">
 
-<!-- REGISTRAR CONSUMO -->
-<div class="containerUser">
-
-    <div class="content1">
-
-        <h1>Últimos chás consumidos:</h1>
-
-        <div class="centralizar2">
-            <div class="">
-                <span>Chá:</span> <input id="iptCha"> <span>Xícaras:</span>  <input id="iptXicaras" type="number">  <span>Data:</span> <input id="iptData"
-                    type="date"> <br>
-                <button class="butChaConsumo" onclick="registrarConsumo()">Registrar consumo</button>
             </div>
         </div>
 
-        <div id="divRegistro">
-            aaaaaa
-            <!-- exibir tipo um select do banco de dados..... ou algo assim....... -->
+        </div> -->
+
+    <div class="container">
+
+        <div class="conteudo">
+
+            <!-- <div class="titulo">Registrar consumo</div> -->
+            <div class="subtitulo">Registrar consumo</div>
+
+            <div class="texto">
+                <input class="inputRegistro" type="text" id="iptCha" placeholder="Chá"> <input class="inputRegistro"
+                    type="text" id="iptXicaras" placeholder="Quantidade de xícaras"> <input class="inputRegistro"
+                    type="date" id="iptData" placeholder="Data"> <button>Registrar consumo</button>
+            </div>
+            <div style="text-align: start;">ERRO!</div>
+
+            <br>
+            <div class="subtitulo">Últimos consumos registrados</div>
+
+            <div id="divRegistro" class="divRegistro">
+                <!-- <div>AAAAAA</div>
+                    <div>BBBBBBBBB</div>
+                    <div>CCCCCCCCCCCC</div> -->
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- REGISTRAR CONSUMO -->
+    <div class="container">
+
+        <div class="conteudo">
+
+            <h1>Últimos chás consumidos</h1>
+
+            <div class="centralizar2">
+                <div class="">
+                    <span>Chá:</span> <input id="iptCha"> <span>Xícaras:</span> <input id="iptXicaras" type="number">
+                    <span>Data:</span> <input id="iptData" type="date"> <br>
+                    <button class="butChaConsumo" onclick="registrarConsumo()">Registrar consumo</button>
+                </div>
+            </div>
+
+            <div id="divRegistro">
+                aaaaaa
+                <!-- exibir tipo um select do banco de dados..... ou algo assim....... -->
+            </div>
         </div>
     </div>
-</div>
 
 
     </section>
-   
+
 </body>
 
 </html>
@@ -115,6 +206,6 @@
         var xicaras = Number(iptXicaras.value);
         var data = iptData.value;
 
-        divRegistro.innerHTML += `<li> Chá: ${cha} - Xícaras: ${xicaras} - Data: ${data} </li>`
+        divRegistro.innerHTML += `<div> Chá: ${cha} - Xícaras: ${xicaras} - Data: ${data} </div>`
     }
 </script>
