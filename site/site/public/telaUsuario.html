@@ -3,6 +3,7 @@
 
 <head>
     <link rel="stylesheet" href="./telaCha.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,22 +12,25 @@
 
 <style>
     .cha {
-        width: 10vh;
+        width: 13vh;
         border-radius: 15vh;
     }
 
-    .batata {
+    .contFavoritos {
+        color: whitesmoke;
         display: flex;
+        flex-wrap: wrap;
         text-align: center;
+        /* justify-content: center; */
         align-items: center;
     }
 
     .chaFav {
-        margin: 0vh 2vh 0vh 2vh;
+        margin: 2vh 2vh 0vh 2vh;
     }
 </style>
 
-<body>
+<body onload="recuperarFavoritos()">
     <!-- NAVBAR -->
     <div class="header">
         <div class="nav">
@@ -40,6 +44,7 @@
     </div>
     <!-- NAVBAR -->
 
+    <!-- CHÁS FAVORITOS -->
 
     <div class="container">
 
@@ -47,66 +52,27 @@
 
             <div class="pesquisa">
 
+                <div id="divUsuario" class="subtitulo">Olá, Usuário!</div>
+
                 <div class="subtitulo" style="text-align: start;">Seus chás favoritos</div>
 
-                <div class="batata">
-
-                    <div class="chaFav">
-                        <div><img class="cha" src="assets/camomila.jpg" alt=""></div>
-                        <div>Camomila</div>
-                    </div>
-
-                    <div class="chaFav">
-                        <div><img class="cha" src="assets/erva_doce.jpg" alt=""></div>
-                        <div>Erva doce</div>
-                    </div>
-
-                    <div class="chaFav">
-                        <div><img class="cha" src="assets/melissa.jpg" alt=""></div>
-                        <div>Melissa</div>
-                    </div>
-
-                    <div class="chaFav">
-                        <div><img class="cha" src="assets/hibisco.jpg" alt=""></div>
-                        <div>Hibisco</div>
-                    </div>
-
+                <div id="divFavoritos" class="contFavoritos">
+                    <!-- vindo do fetch -->
                 </div>
 
             </div>
 
             <div class="subtitulo" style="text-align: start;">
                 <input id="iptAddChaFav" type="text" placeholder="Adicione um novo chá favorito">
-                <button onclick="addChaFav()">Adicionar</button>
+                <!-- vindo do fetch -->
+                <button onclick="procurarCha()">Adicionar</button>
             </div>
-            <div style="text-align: start;">ERRO!</div>
+            <div id="divMsgErroFav" style="text-align: start;"></div>
 
         </div>
 
     </div>
-    <!-- CHÁS FAVORITOS -->
 
-    <!-- <section class="container1">
-        
-        <div class="containerUser">
-
-            <div class="content1">
-
-                <h1>Seus chás favoritos:</h1>
-
-                <div class="centralizar1">
-                    <div id="divAdicionar">
-                        <input class="chaFavorito" type="text" id="iptAddChaFav" placeholder="Pesquise seu chá favorito"
-                            required> <br>
-                        <button class="butChaFavorito" onclick="addChaFav()">Adicionar</button>
-                    </div>
-                </div>
-                <div id="divChasFav" class="chasFavoritos">
-
-            </div>
-        </div>
-
-        </div> -->
 
     <div class="container">
 
@@ -118,61 +84,199 @@
             <div class="texto">
                 <input class="inputRegistro" type="text" id="iptCha" placeholder="Chá"> <input class="inputRegistro"
                     type="text" id="iptXicaras" placeholder="Quantidade de xícaras"> <input class="inputRegistro"
-                    type="date" id="iptData" placeholder="Data"> <button>Registrar consumo</button>
+                    type="date" id="iptData" placeholder="Data"> <button onclick="registrarConsumo()">Registrar
+                    consumo</button>
             </div>
             <div style="text-align: start;">ERRO!</div>
 
-            <br>
             <div class="subtitulo">Últimos consumos registrados</div>
-
-            <div id="divRegistro" class="divRegistro">
-                <!-- <div>AAAAAA</div>
-                    <div>BBBBBBBBB</div>
-                    <div>CCCCCCCCCCCC</div> -->
+            <div id="divRegistro" style="text-align: start;">
+                <div>AAAAAAAAAAAAAA</div>
+                <div>BBBBBBBBBBBBBB</div>
+                <div>CCCCCCCCCCCCCC</div>
             </div>
 
         </div>
 
     </div>
 
-
-    <!-- REGISTRAR CONSUMO -->
     <div class="container">
 
         <div class="conteudo">
 
-            <h1>Últimos chás consumidos</h1>
+            <!-- <div class="titulo">Registrar consumo</div> -->
+            <div class="subtitulo">Gráficos</div>
 
-            <div class="centralizar2">
-                <div class="">
-                    <span>Chá:</span> <input id="iptCha"> <span>Xícaras:</span> <input id="iptXicaras" type="number">
-                    <span>Data:</span> <input id="iptData" type="date"> <br>
-                    <button class="butChaConsumo" onclick="registrarConsumo()">Registrar consumo</button>
+            <div class="">
+                <div style="display: flex;">
+
+                    <div>Acompanhe seus últimos consumos</div>
+                    <div>
+                        <canvas id="myChart" style="position: relative; height: 30vh; width: 35vw;"></canvas>
+                    </div>
+
                 </div>
+
+                <div style="display: flex;">
+
+                    <div>Seus chás mais bebidos</div>
+                    <div>
+                        <canvas id="myChart2" style="position: relative; height: 25vh; width: 25vw;"></canvas>
+                    </div>
+
+                </div>
+                <!-- <input class="inputRegistro" type="text" id="iptCha" placeholder="Chá"> <input class="inputRegistro"
+                    type="text" id="iptXicaras" placeholder="Quantidade de xícaras"> <input class="inputRegistro"
+                    type="date" id="iptData" placeholder="Data">
+                    <button onclick="registrarConsumo()">Registrar consumo</button> -->
             </div>
 
-            <div id="divRegistro">
-                aaaaaa
-                <!-- exibir tipo um select do banco de dados..... ou algo assim....... -->
-            </div>
         </div>
+
     </div>
 
+    <footer>
 
-    </section>
+
+
+    </footer>
 
 </body>
 
 </html>
 
 <script>
-    // Recuperar chás já existentes de uma lista
-    var listaCha = ['Camomila', 'Erva doce', 'Hortelã', 'Melissa'];
+    var nomeUsuario = sessionStorage.NOME_USUARIO;
+    var idUsuario = sessionStorage.ID_USUARIO;
+    var listaCha = []
 
-    for (var i = 0; i < listaCha.length; i++) {
-        const chaAtual = listaCha[i];
-        divChasFav.innerHTML += `<li> ${chaAtual} </li>`
+    divUsuario.innerHTML = `Olá, ${nomeUsuario}!`
+
+    // Recuperando chás favoritos do usuário
+    function recuperarFavoritos() {
+        divFavoritos.innerHTML = ""
+
+        fetch("/cha/listarFavoritos", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                fkUsuarioServer: idUsuario
+            })
+        }).then(function (resposta) {
+
+            console.log("resposta: ", resposta);
+
+            if (resposta.ok) {
+
+                resposta.json().then(json => {
+                    // console.log(json);
+                    console.log('Resposta listarFavoritos: ', JSON.stringify(json));
+
+                    for (var i = 0; i < json.length; i++) {
+                        var favAtual = json[i];
+                        listaCha.push(favAtual.nome);
+                        divFavoritos.innerHTML += `<div class="chaFav">
+                            <div><img class="cha" src="${favAtual.imagem}" alt=""></div>
+                            <div>${favAtual.nome}</div>
+                        </div>`
+                    }
+
+                });
+
+            } else {
+                throw ("Erro de recuperação de favoritos");
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
     }
+
+    // Adicionando novos chás aos favoritos
+    function procurarCha() {
+        var nomeCha = iptAddChaFav.value;
+
+        if (nomeCha == '') {
+            alert("Campo vazio!")
+        } else {
+            fetch("/cha/listarCha", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    nomeChaServer: nomeCha
+                })
+            }).then(function (resposta) {
+
+                console.log("resposta: ", resposta);
+
+                if (resposta.ok) {
+
+                    resposta.json().then(json => {
+
+                        //alguma coisa aqui.... não vai dar pra reusar a função
+                        if (json.length > 0) {
+                            if (listaCha.indexOf(json[0].nome) > -1) {
+                                divMsgErroFav.innerHTML = "Você já possui este chá em sua lista!";
+                                return
+                            } else {
+
+                                var idCha = json[0].id;
+
+                                fetch("/cha/addFavorito", {
+                                    method: "POST",
+                                    headers: {
+                                        "Content-Type": "application/json"
+                                    },
+                                    body: JSON.stringify({
+                                        fkChaServer: idCha,
+                                        fkUsuarioServer: idUsuario
+                                    })
+                                }).then(function (resposta) {
+
+                                    console.log("resposta: ", resposta);
+
+                                    if (resposta.ok) {
+                                        divMsgErroFav.innerHTML = "Chá adicionado aos favoritos"
+                                        recuperarFavoritos()
+                                        setTimeout(() => {
+                                            divMsgErroFav.innerHTML = "";
+                                        }, "5000")
+                                    } else {
+                                        throw ("Houve um erro ao tentar realizar o cadastro!");
+                                    }
+                                }).catch(function (resposta) {
+                                    console.log(`#ERRO: ${resposta}`);
+                                    // finalizarAguardar();
+                                });
+
+                                return false;
+                            }
+                        } else {
+                            divMsgErroFav.innerHTML = "O chá não foi encontrado em nossa base de dados"
+                        }
+                    });
+
+                } else {
+                    throw ("Houve um erro ao tentar realizar o cadastro!");
+                }
+            }).catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+            });
+
+            return false;
+        }
+    }
+
+    // Recuperar chás já existentes de uma lista
+    // var listaCha = ['Camomila', 'Erva doce', 'Hortelã', 'Melissa'];
+
+    // for (var i = 0; i < listaCha.length; i++) {
+    //     const chaAtual = listaCha[i];
+    //     divChasFav.innerHTML += `<li> ${chaAtual} </li>`
+    // }
 
     // Adicionar novo chá - verificar se já existe na lista
     function addChaFav() {
@@ -208,4 +312,100 @@
 
         divRegistro.innerHTML += `<div> Chá: ${cha} - Xícaras: ${xicaras} - Data: ${data} </div>`
     }
+</script>
+
+
+<!-- CHART JS -->
+<script>
+    // GRÁFICO DIÁRIO
+    Chart.defaults.color = '#FFFFFF';
+
+    const labels = [
+        '18/05/2023',
+        '19/05/2023',
+        '22/05/2023',
+        '23/05/2023',
+        '28/05/2023',
+        '29/05/2023',
+        '31/05/2023',
+    ];
+
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: "Quantidade de xícaras",
+            backgroundColor: "rgb(255, 127, 39)",
+            borderColor: "rgb(255, 127, 39)",
+            data: [3, 2, 5, 1, 4, 2, 4]
+        }]
+    };
+
+    const config = {
+        type: `line`,
+        data: data,
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            }
+        }
+    };
+
+    const myChart = new Chart(
+        document.getElementById('myChart'),
+        config
+    )
+
+    // GRÁFICO TOTAL
+    const labels2 = [
+        'Capim limão',
+        'Camomila',
+        'Hortelã',
+        'Erva doce',
+    ];
+
+    const data2 = {
+        labels: labels2,
+        datasets: [{
+            label: "Quantidade de xícaras",
+            backgroundColor: [
+                "rgb(255, 127, 39)",
+                "rgb(0, 127, 39)",
+                "rgb(50, 201, 58)",
+                "rgb(130, 70, 150)",
+
+            ],
+            borderColor: "transparent",
+            data: [3.7, 1.9, 2.5, 0.7]
+        }]
+    };
+
+    const config2 = {
+        type: `doughnut`,
+        data: data2,
+        options: {
+            plugins: {
+                legend: {
+                    position: 'right'
+                }
+            }
+            // scales: {
+            //     y: {
+            //         beginAtZero: true,
+            //         ticks: {
+            //             stepSize: 1
+            //         }
+            //     }
+            // }
+        }
+    };
+
+    const myChart2 = new Chart(
+        document.getElementById('myChart2'),
+        config2
+    )
 </script>

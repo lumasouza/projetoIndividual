@@ -44,8 +44,8 @@ body {
     padding-left: 7.5%;
     padding-right: 7.5%;
     background-color: #0000004b;
-    justify-content: center;
-    align-items: center;
+    /* justify-content: center;
+    align-items: center; */
 }
 
 .nav {
@@ -67,15 +67,19 @@ body {
     align-items: center;
     justify-content: space-evenly;
     list-style: none;
-    background-color: #96217e;
+    /* background-color: #96217e; */
 }
 
-a {
-    transition: all .3s ease-out ;
+li {
+    background-color: #970303;
+    width: auto;
+    padding: 1.3vh;
+    border-radius: 3vh;
+    transition: background-color .3s ease-out ;
 }
 
-a:hover {
-    border-bottom: 3px solid #1972b2;
+li:hover {
+    background-color: #1972b2;
 }
 
 /* .login {
@@ -114,7 +118,7 @@ a:hover {
     padding: 15vh;
     margin: 0;
     padding-right: 25vh;
-    /* background-color: #96217e; */
+    background-color: #96217e;
     /* align-items: center; */
     justify-content: center;
     /* display: flex; */
@@ -122,11 +126,37 @@ a:hover {
 
 .container {
     width: 100%;
-    /* background-color: #1972b2; */
+    background-color: #1972b2;
     padding: 5vh;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+}
+
+.containerFin { 
+    width: 100%;
+    background-color: #1972b2;
+    padding: 5vh;
+    display: flex;
+    flex-wrap: wrap;
+    /* justify-content: space-evenly; */
+}
+
+.finalidade {
+    background: linear-gradient(45deg,#d73b5d, #f17828);
+    color: #dfe3ea;
+    border-radius: 5vh;
+    width: auto;
+    padding: 2vh;
+    margin: 3vh 10vh 0vh 10vh;
+}
+
+.teste {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    padding: 0vh 10vh 0vh 10vh;
 }
 
 .textoTitulo {
@@ -429,4 +459,11 @@ span {
 
 #divRegistro {
     color:#dfe3ea;
+}
+
+footer {
+    height: 30vh;
+    margin-top: 5vh;
+    background-color:rgba(128, 0, 0, 0.365);
+    border-top: solid white 2px;
 }

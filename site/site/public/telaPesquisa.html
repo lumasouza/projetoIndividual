@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>cházim?pesquisa | </title>
+    <title>pesquisa | cházim?</title>
 </head>
 
 <body>
@@ -30,7 +30,8 @@
 
             <div class="pesquisa">
                 <div class="subtitulo" style="text-align: center;">Pesquisar chá</div>
-                <div id="divPesquisaCha"><input type="text" id="iptPesquisaCha"></div>
+                <div id="divPesquisaCha"><input type="text" id="iptPesquisaCha" onblur="pesquisarCha()"></div>
+                <div id="divMsgErroPesquisa"></div>
             </div>
 
             <!-- <div class="">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quos impedit unde aperiam quas reprehenderit? Assumenda soluta atque culpa obcaecati exercitationem iure accusamus, voluptatum magni unde perferendis iste inventore tempore est?</div> -->
@@ -45,13 +46,10 @@
 
         <div class="conteudo">
 
-            <div class="titulo">Título</div>
-            <div class="subtitulo">subtitulo</div>
+            <div id="divNomeCha" class="titulo">Título</div>
+            <div id="divNomePop" class="subtitulo">subtitulo</div>
 
-            <div class="texto"><span>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quos impedit unde aperiam
-                    quas reprehenderit? Assumenda soluta atque culpa obcaecati exercitationem iure accusamus, voluptatum
-                    magni unde perferendis iste inventore tempore est?</span><img id="imgCha" src="assets/tea.png"
-                    alt="">
+            <div id="divDescCha" class="texto">
             </div>
 
 
@@ -80,15 +78,19 @@
             <div class="proporcao">
 
                 <div class="subtitulo">Precisa de uma quantidade maior de chá?
-                <br>Veja aqui a proporção</div>
+                    <br>Veja aqui a proporção
+                </div>
 
                 <div style="display: flex; justify-content: space-between; margin-bottom: 5vh;">
-                    <div id="divProporcao"><input class="iptCoisas" type="number" min="1" max="30" id="iptProporcao" placeholder="Insira aqui quantas xícaras deseja fazer"></div>
-                    <button id="btnProporcao" >Calcular</button>
+                    <div id="divProporcao"><input class="iptCoisas" type="number" min="1" max="30" id="iptProporcao"
+                            placeholder="Insira aqui quantas xícaras deseja fazer"></div>
+                    <button id="btnProporcao">Calcular</button>
                 </div>
 
                 <div class="texto">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Labore architecto quos, vel a laborum veniam sit reprehenderit quisquam dolorem eligendi delectus. Laudantium ea distinctio veniam commodi. Ducimus aliquid praesentium provident?
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Labore architecto quos, vel a laborum
+                    veniam sit reprehenderit quisquam dolorem eligendi delectus. Laudantium ea distinctio veniam
+                    commodi. Ducimus aliquid praesentium provident?
                 </div>
 
             </div>
@@ -100,7 +102,7 @@
     </div>
 
     <footer>
-        
+
 
 
     </footer>
@@ -108,3 +110,51 @@
 </body>
 
 </html>
+
+<script>
+
+    function pesquisarCha() {
+        var nomeCha = iptPesquisaCha.value;
+
+        if (nomeCha == '') {
+            alert("Campo vazio!")
+        } else {
+            fetch("/cha/listarCha", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    nomeChaServer: nomeCha
+                })
+            }).then(function (resposta) {
+
+                console.log("resposta: ", resposta);
+
+                if (resposta.ok) {
+
+                    resposta.json().then(json => {
+
+                        //alguma coisa aqui.... não vai dar pra reusar a função
+                        if (json.length > 0) {
+                            alert("achei coisa aqui ó")
+                            divNomeCha.innerHTML = `${json[0].nome}`
+                            divDescCha.innerHTML = `<span>${json[0].descricao}</span><img style="border-radius:5vh;" id="imgCha" src="${json[0].imagem}"
+                    alt="">`
+                        } else {
+                            divMSgErroPesquisa.innerHTML = "O chá não foi encontrado em nossa base de dados"
+                        }
+                    });
+
+                } else {
+                    throw ("Houve um erro ao tentar pesquisar o chá!");
+                }
+            }).catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+            });
+
+            return false;
+        }
+    }
+
+</script>

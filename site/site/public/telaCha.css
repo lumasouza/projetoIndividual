@@ -333,3 +333,8 @@ footer {
     transition: all .3s ease-out;
     border-radius: 0;
 }
+
+#divMsgErroFav {
+    font-size: 22px;
+    color: yellow;
+}
