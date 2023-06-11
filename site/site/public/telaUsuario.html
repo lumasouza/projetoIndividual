@@ -30,7 +30,7 @@
     }
 </style>
 
-<body onload="recuperarFavoritos()">
+<body onload="recuperarFavoritos(), visualizarConsumo()">
     <!-- NAVBAR -->
     <div class="header">
         <div class="nav">
@@ -82,18 +82,17 @@
             <div class="subtitulo">Registrar consumo</div>
 
             <div class="texto">
-                <input class="inputRegistro" type="text" id="iptCha" placeholder="Chá"> <input class="inputRegistro"
-                    type="text" id="iptXicaras" placeholder="Quantidade de xícaras"> <input class="inputRegistro"
-                    type="date" id="iptData" placeholder="Data"> <button onclick="registrarConsumo()">Registrar
-                    consumo</button>
+                <input class="inputRegistro" type="text" id="iptChaReg" placeholder="Insira o chá" onblur="">
+                <input class="inputRegistro" type="number" id="iptXicarasReg" placeholder="Quantidade de xícaras">
+                <input class="inputRegistro" type="date" id="iptDataReg" placeholder="Data">
+                <button onclick="registrarConsumo()">Registrar consumo</button>
             </div>
-            <div style="text-align: start;">ERRO!</div>
+
+            <div id="divMsgReg" style="text-align: center; margin-bottom: 2vh;"></div>
 
             <div class="subtitulo">Últimos consumos registrados</div>
             <div id="divRegistro" style="text-align: start;">
-                <div>AAAAAAAAAAAAAA</div>
-                <div>BBBBBBBBBBBBBB</div>
-                <div>CCCCCCCCCCCCCC</div>
+
             </div>
 
         </div>
@@ -198,7 +197,7 @@
         var nomeCha = iptAddChaFav.value;
 
         if (nomeCha == '') {
-            alert("Campo vazio!")
+            divMsgErroFav.innerHTML = "Campo vazio! Por favor, verifique e tente novamente"
         } else {
             fetch("/cha/listarCha", {
                 method: "POST",
@@ -270,6 +269,131 @@
         }
     }
 
+    // Registrando o consumo de chás em um determinado dia
+    function registrarConsumo() {
+        var chaReg = iptChaReg.value;
+        var xicarasReg = Number(iptXicarasReg.value);
+        var dataReg = iptDataReg.value;
+
+        if (chaReg == '' || xicarasReg == 0 || dataReg == "") {
+            divMsgReg.innerHTML = "Campo vazio! Por favor, verifique e tente novamente"
+        } else {
+            fetch("/cha/listarCha", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    nomeChaServer: chaReg
+                })
+            }).then(function (resposta) {
+
+                console.log("resposta: ", resposta);
+
+                if (resposta.ok) {
+
+                    resposta.json().then(json => {
+                        console.log('resposta do fetch do registro: ', json)
+
+                        if (json.length > 0) {
+                            var idCha = json[0].id;
+
+                            //FETCH INSERIR DADOS   
+                            fetch("/cha/registrarConsumo", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify({
+                                    fkUsuarioServer: idUsuario,
+                                    fkChaServer: idCha,
+                                    qntdServer: xicarasReg,
+                                    dtConsumoServer: dataReg
+                                })
+                            }).then(function (resposta) {
+
+                                console.log("resposta: ", resposta);
+
+                                if (resposta.ok) {
+                                    divMsgReg.innerHTML = "Registro adicionado com sucesso"
+                                    iptChaReg.value = ""
+                                    iptDataReg.value = ""
+                                    iptXicarasReg.value = 0
+                                    visualizarConsumo()
+                                    // recuperarFavoritos()
+                                    // setTimeout(() => {
+                                    //     divMsgErroFav.innerHTML = "";
+                                    // }, "5000")
+                                } else {
+                                    alert("algo deu errado :(")
+                                    throw ("Houve um erro ao tentar realizar o cadastro!");
+                                }
+                            }).catch(function (resposta) {
+                                console.log(`#ERRO: ${resposta}`);
+                                // finalizarAguardar();
+                            });
+
+                            return false;
+
+                        } else {
+                            divMsgReg.innerHTML = "O chá não foi encontrado em nossa base de dados"
+                        }
+                    });
+
+                } else {
+                    throw ("Houve um erro ao tentar realizar o cadastro!");
+                }
+            }).catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+            });
+
+            return false;
+        }
+    }
+
+    function visualizarConsumo() {
+        divRegistro.innerHTML = `<div class="linha" >
+                    <div class="registro" style="background-color: darksalmon;">Nome do chá</div>
+                    <div class="registro" style="background-color: darksalmon;">Quantidade de xícaras</div>
+                    <div class="registro" style="background-color: darksalmon;">Data do Consumo</div>
+                </div>`
+
+        fetch("/cha/visualizarConsumo", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                fkUsuarioServer: idUsuario
+            })
+        }).then(function (resposta) {
+
+            console.log("resposta: ", resposta);
+
+            if (resposta.ok) {
+
+                resposta.json().then(json => {
+                    // console.log(json);
+                    console.log('Resposta visualizarConsumo: ', JSON.stringify(json));
+                    // alert("entrei no visualizarConsumo!!!")
+
+                    for (var i = 0 ; i < json.length ; i++) {
+                        divRegistro.innerHTML += `<div class="linha">
+                    <div class="registro">${json[i].nome}</div>
+                    <div class="registro">${json[i].qntd}</div>
+                    <div class="registro">${json[i].dtConsumo}</div>
+                </div>`
+                    }
+
+                });
+
+            } else {
+                throw ("Erro de recuperação de favoritos");
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+    }
     // Recuperar chás já existentes de uma lista
     // var listaCha = ['Camomila', 'Erva doce', 'Hortelã', 'Melissa'];
 
@@ -305,7 +429,7 @@
     }
 
     // Registrar consumo de um chá
-    function registrarConsumo() {
+    function registrarConsumo2() {
         var cha = iptCha.value;
         var xicaras = Number(iptXicaras.value);
         var data = iptData.value;

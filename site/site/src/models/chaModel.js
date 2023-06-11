@@ -16,11 +16,58 @@ function listarCha(nome) {
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()");
     var instrucao = `
     select * from cha
-	    where nome like '${nome}%';
+	    where nome like '${nome}%' or nomePop1 like '${nome}%' or nomePop2 like '${nome}%'
     `;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
 }
+
+function listarFinalidade(fkCha) {
+    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()");
+    var instrucao = `
+    select cha.nome as cha, finalidadelista.nome as finalidade from finalidadecha
+	join finalidadelista on finalidadelista.id = fkFinalidade
+    join cha on cha.id = fkCha
+		where cha.id = ${fkCha}
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
+
+function listarContraindic(fkCha) {
+    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()");
+    var instrucao = `
+    select cha.nome as cha, contraindiclista.nome as contraindic from contraindiccha
+	join contraindiclista on contraindiclista.id = fkContra
+    join cha on cha.id = fkCha
+		where cha.id = ${fkCha}
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
+
+function registrarConsumo(fkUsuario, fkCha, qntd, dtConsumo ) {
+    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()");
+    var instrucao = `
+    insert into consumo values
+        (null, ${fkUsuario}, ${fkCha}, ${qntd}, '${dtConsumo}')
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
+
+function visualizarConsumo(fkUsuario) {
+    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()");
+    var instrucao = `
+    select cha.nome, consumo.qntd, DATE_FORMAT(consumo.dtConsumo, '%d/%m/%Y') as dtConsumo from cha
+	join consumo on cha.id = fkCha
+    join usuario on usuario.id = fkUsuario
+		where usuario.id = ${fkUsuario}
+        order by dtConsumo desc;
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+} 
 
 function entrar(email, senha) {
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function entrar(): ", email, senha)
@@ -48,5 +95,9 @@ module.exports = {
     entrar,
     addFavorito,
     listarFavoritos,
-    listarCha
+    listarCha,
+    listarFinalidade,
+    listarContraindic,
+    registrarConsumo,
+    visualizarConsumo
 };

@@ -15,8 +15,24 @@ router.post("/listarCha", function (req, res) {
     chaController.listarCha(req, res);
 });
 
+router.post("/listarFinalidade", function (req, res) {
+    chaController.listarFinalidade(req, res);
+});
+
+router.post("/listarContraindic", function (req, res) {
+    chaController.listarContraindic(req, res);
+});
+
 router.post("/addFavorito", function (req, res) {
     chaController.addFavorito(req, res);
+});
+
+router.post("/registrarConsumo", function (req, res) {
+    chaController.registrarConsumo(req, res);
+});
+
+router.post("/visualizarConsumo", function (req, res) {
+    chaController.visualizarConsumo(req, res);
 });
 
 //Recebendo os dados do html e direcionando para a função cadastrar de usuarioController.js

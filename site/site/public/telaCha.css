@@ -4,6 +4,7 @@
 
 * {
     font-family: 'Montserrat', sans-serif;
+    color:#dfe3ea;
 }
 
 input::-webkit-outer-spin-button,
@@ -144,7 +145,7 @@ a:hover {
     align-items: center;
     text-align: center;
 
-    background-color: #cf2b46;
+    background-color: rgb(199,79,79);
     width: 100vh;
 
     margin: 5vh;
@@ -158,7 +159,7 @@ a:hover {
     align-items: center;
     text-align: center;
 
-    background-color: #cf2b46;
+    background-color: rgb(199,79,79);
     width: 100vh;
 
     margin: 5vh;
@@ -167,6 +168,13 @@ a:hover {
 
 .pesquisa {
     margin: 5vh;
+}
+
+.pesquisa button {
+    margin: 2vh 0vh 2vh 0vh;
+    height: 5vh;
+    width: 50%;
+    font-size: 24px;
 }
 
 .titulo {
@@ -213,8 +221,29 @@ span {
 
 .fin {
     margin: 0px 50px 0px 0px;
-    background:linear-gradient(45deg, #1972b2, #96217e);
+    background-color: #74c361;
+    color:#101012;
+    font-size: 22px;
+    font-weight: bold;
+    padding: 3vh;
+    border-radius: 6vh;
+    width: auto;
+    transition: background-color .3s ease-out;
+    font-size: auto;
+}
+
+.fin:hover {
+    cursor: pointer;
+    background-color:#6df1b3;
+    color:#2c2c2e
+}
+
+.contra {
+    margin: 0px 50px 0px 0px;
+    background-color:#6a3e96;
     color:#dfe3ea;
+    font-size: 22px;
+    font-weight: bold;
     padding: 3vh;
     border-radius: 6vh;
     width: auto;
@@ -222,10 +251,9 @@ span {
     font-size: auto;
 }
 
-.fin:hover {
+.contra:hover {
     cursor: pointer;
-    background:linear-gradient(45deg, #4d92c3, #c663b2);
-    transition: all .3s ease-out;
+    background-color:#a762ba
 }
 
 #divPesquisaCha input {
@@ -245,8 +273,28 @@ span {
     text-align: center;
 }
 
+.esconder {
+    display: none;
+}
+
+.linha {
+    display: flex;
+    align-items: center;
+    justify-content:space-evenly;
+}
+
+.registro {
+    background-color: beige;
+    color: #2c2c2e;
+    width: 32%;
+    text-align: center;
+    padding: 0.5vh 0vh 0.5vh 0vh;
+    margin: 0vh 0vh 1vh 0vh;
+    height: auto;
+}
+
 .iptCoisas {
-        width: 60vh;
+        width: 40vh;
         min-width: auto;
         padding: 5px 5px 5px 0px;
         display: inline-block;
@@ -255,7 +303,7 @@ span {
         color: #ffffff;
         background-color: transparent;
         outline: none;
-        font-size: 3vh;
+        font-size: 2vh;
         color: white;
         transition: all .3s ease-out;
         border-radius: 0;
@@ -263,19 +311,43 @@ span {
 
 }
 
-#btnProporcao {
+button {
     background:linear-gradient(45deg, #1972b2, #96217e);
+    background-color: #1972b2;
     color:#dfe3ea;
     border-radius: 6vh;
     border: none;
     width: 35vh;
-    transition: all .3s ease-out;
+    transition: background-color .3s ease-out;
 }
 
-#btnProporcao:hover {
+button:hover {
     cursor: pointer;
-    background:linear-gradient(45deg, #4d92c3, #c663b2);
-    transition: all .3s ease-out;
+    background-color: antiquewhite;
+    /* background: none; */
+    /* background:linear-gradient(45deg, #4d92c3, #c663b2); */
+    transition: background-color .3s ease-out;
+}
+
+.importante {
+    text-align: start;
+    font-size: 18px;
+}
+
+#btnProporcao {
+    margin-top: 2vh;
+    font-size: 2.5vh;
+}
+
+#divResultadoCha {
+    display: flex;
+    width: 45%;
+    /* background-color: blue; */
+    /* justify-content: center; */
+    align-items: center;
+    text-align: start;
+    font-size: 24px;
+    
 }
 
 ::placeholder {
@@ -317,6 +389,8 @@ footer {
         /* text-align: center; */
 }
 
+
+
 #iptAddChaFav {
     width: 35vh;
     min-width: auto;
@@ -337,4 +411,12 @@ footer {
 #divMsgErroFav {
     font-size: 22px;
     color: yellow;
+}
+
+#divMsgReg {
+    font-size: 16px;
+    background-color: #101012;
+    width: auto;
+    height: auto;
+    padding: 1vh;
 }

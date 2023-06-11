@@ -3,6 +3,7 @@
 
 <head>
     <link rel="stylesheet" href="telaCha.css">
+    <link rel="icon" href="assets/logo.png">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,40 +31,40 @@
 
             <div class="pesquisa">
                 <div class="subtitulo" style="text-align: center;">Pesquisar chá</div>
-                <div id="divPesquisaCha"><input type="text" id="iptPesquisaCha" onblur="pesquisarCha()"></div>
+                <div id="divPesquisaCha"><input type="text" id="iptPesquisaCha"></div>
+                <div><button onclick="pesquisarCha()">Pesquisar</button></div>
                 <div id="divMsgErroPesquisa"></div>
             </div>
 
             <!-- <div class="">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quos impedit unde aperiam quas reprehenderit? Assumenda soluta atque culpa obcaecati exercitationem iure accusamus, voluptatum magni unde perferendis iste inventore tempore est?</div> -->
-
-
-
         </div>
 
     </div>
 
-    <div class="container">
+    <div id="divEsconder1" class="container esconder">
 
         <div class="conteudo">
 
-            <div id="divNomeCha" class="titulo">Título</div>
-            <div id="divNomePop" class="subtitulo">subtitulo</div>
+            <div id="divNomeCha" class="titulo">
+                <!-- Fetch nome chá -->
+            </div>
+            <div id="divNomePop" class="subtitulo">
+                <!-- Fetch outros nomes -->
+            </div>
 
             <div id="divDescCha" class="texto">
+                <!-- Descrição do chá + imagem -->
             </div>
 
 
-            <div class="subtitulo2">Uso popular</div>
-            <div class="topicos">
-                <div class="fin">AAAAAA</div>
-                <div class="fin">BBBBBBBBB</div>
-                <div class="fin">CCCCCCCCCCCC</div>
+            <div id="divTituloFin" class="subtitulo2">Uso popular</div>
+            <div id="divFinalidade" class="topicos">
+                <!-- Aqui virá as finalidades dinamicamente por meio do fetch -->
             </div>
 
             <div class="subtitulo2">Contra-indicações</div>
-            <div class="topicos">
-                <div class="fin">AAAAAA</div>
-                <div class="fin">BBBBBBBBB</div>
+            <div id="divContraindic" class="topicos">
+                <!-- Aqui virá as contra-indicações dinamicamente por meio do fetch -->
             </div>
 
         </div>
@@ -71,26 +72,35 @@
     </div>
 
 
-    <div class="container">
+    <div id="divEsconder2" class="container esconder">
 
         <div class="conteudo">
 
             <div class="proporcao">
 
-                <div class="subtitulo">Precisa de uma quantidade maior de chá?
+                <div id="divQntdCha" class="subtitulo">Precisa de uma quantidade maior de chá?
                     <br>Veja aqui a proporção
                 </div>
 
-                <div style="display: flex; justify-content: space-between; margin-bottom: 5vh;">
-                    <div id="divProporcao"><input class="iptCoisas" type="number" min="1" max="30" id="iptProporcao"
-                            placeholder="Insira aqui quantas xícaras deseja fazer"></div>
-                    <button id="btnProporcao">Calcular</button>
+                <div style="display: flex; justify-content: space-between;">
+
+                    <div style="display:flex; align-items: center; margin-bottom: 5vh; width: 45%;">
+                        <div>
+                            <div id="divProporcao"><input class="iptCoisas" type="number" min="1" max="30"
+                                    id="iptQntdXicara" placeholder="Insira aqui quantas xícaras deseja fazer"></div>
+                            <div><button id="btnProporcao" onclick="calcularProporcao()">Calcular</button></div>
+                        </div>
+                    </div>
+
+                    <div id="divResultadoCha"></div>
                 </div>
 
-                <div class="texto">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Labore architecto quos, vel a laborum
-                    veniam sit reprehenderit quisquam dolorem eligendi delectus. Laudantium ea distinctio veniam
-                    commodi. Ducimus aliquid praesentium provident?
+                <div class="importante">
+                    <b>Importante!</b>
+                    <br><br>
+                    • A quantidade de água recomendada por xícara é de 240 ml<br>
+                    • A quantidade de chá recomendada pode ser ajustada para mais ou para menos, dependendo da
+                    intensidade desejada
                 </div>
 
             </div>
@@ -112,13 +122,21 @@
 </html>
 
 <script>
+    // var fkCha = "";
+    var colherSopa = 0;
+    var nomeChaPag
 
     function pesquisarCha() {
         var nomeCha = iptPesquisaCha.value;
+        divFinalidade.innerHTML = "";
+        divContraindic.innerHTML = "";
+        iptQntdXicara.value = "";
+        divResultadoCha.innerHTML = "";
 
         if (nomeCha == '') {
             alert("Campo vazio!")
         } else {
+            // FETCH PROCURAR PELO CHÁ DESEJADO /////////////////////////
             fetch("/cha/listarCha", {
                 method: "POST",
                 headers: {
@@ -135,12 +153,106 @@
 
                     resposta.json().then(json => {
 
-                        //alguma coisa aqui.... não vai dar pra reusar a função
                         if (json.length > 0) {
-                            alert("achei coisa aqui ó")
+                            console.log(json)
+                            // document.getElementById("divEsconder").style.display = "block"
+                            nomeChaPag = json[0].nome
+
+                            document.getElementById("divEsconder1").style.display = "flex"
+                            document.getElementById("divEsconder2").style.display = "flex"
+
+                            if (json[0].nomePop1 == null) {
+                                divNomePop.innerHTML = ""
+                            } else if (json[0].nomePop2 == null) {
+                                divNomePop.innerHTML = `${json[0].nomePop1}`
+                            } else {
+                                divNomePop.innerHTML = `${json[0].nomePop1}, ${json[0].nomePop2}`
+
+                            }
+
+                            var fkCha = json[0].id
+                            colherSopa = json[0].colherSopa
                             divNomeCha.innerHTML = `${json[0].nome}`
-                            divDescCha.innerHTML = `<span>${json[0].descricao}</span><img style="border-radius:5vh;" id="imgCha" src="${json[0].imagem}"
-                    alt="">`
+                            divDescCha.innerHTML = `<span>${json[0].descricao}</span><img style="border-radius:5vh;" id="imgCha" src="${json[0].imagem}" alt="">`
+                            divQntdCha.innerHTML = `Precisa de uma quantidade maior de ${json[0].nome}?
+                    <br>Veja aqui a proporção`
+
+                            // FETCH LISTANDO FINALIDADE ///////////////////////////////////////////////
+                            fetch("/cha/listarFinalidade", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify({
+                                    fkChaServer: fkCha
+                                })
+                            }).then(function (resposta) {
+
+                                console.log("resposta: ", resposta);
+
+                                if (resposta.ok) {
+
+                                    resposta.json().then(json => {
+
+                                        if (json.length > 0) {
+                                            console.log('resposta do json: ', json)
+                                            for (var i = 0; i < json.length; i++) {
+                                                // document.getElementById("divTituloFin").style.display = "block"
+                                                divFinalidade.innerHTML += `<div class="fin">${json[i].finalidade}</div>`
+                                            }
+
+                                            // FETCH LISTANDO CONTRA-INDICAÇÕES ////////////////////
+                                            fetch("/cha/listarContraindic", {
+                                                method: "POST",
+                                                headers: {
+                                                    "Content-Type": "application/json"
+                                                },
+                                                body: JSON.stringify({
+                                                    fkChaServer: fkCha
+                                                })
+                                            }).then(function (resposta) {
+
+                                                console.log("resposta: ", resposta);
+
+                                                if (resposta.ok) {
+
+                                                    resposta.json().then(json => {
+
+                                                        if (json.length > 0) {
+                                                            console.log('resposta do json: ', json)
+                                                            // alert("Entrou no fetch da contraindic")
+                                                            for (var i = 0; i < json.length; i++) {
+                                                                // document.getElementById("divTituloFin").style.display = "block"
+                                                                divContraindic.innerHTML += `<div class="contra">${json[i].contraindic}</div>`
+                                                            }
+                                                        } else {
+                                                            divMSgErroPesquisa.innerHTML = "pipipipopopo"
+                                                        }
+                                                    });
+
+                                                } else {
+                                                    throw ("Houve um erro ao tentar pesquisar o chá!");
+                                                }
+                                            }).catch(function (resposta) {
+                                                console.log(`#ERRO: ${resposta}`);
+                                            });
+
+                                            return false;
+                                        } else {
+                                            divMSgErroPesquisa.innerHTML = "pipipipopopo"
+                                        }
+                                    });
+
+                                } else {
+                                    throw ("Houve um erro ao tentar pesquisar o chá!");
+                                }
+                            }).catch(function (resposta) {
+                                console.log(`#ERRO: ${resposta}`);
+                            });
+
+                            return false;
+
+
                         } else {
                             divMSgErroPesquisa.innerHTML = "O chá não foi encontrado em nossa base de dados"
                         }
@@ -155,6 +267,19 @@
 
             return false;
         }
+    }
+
+    function calcularProporcao() {
+        var qntdXicara = iptQntdXicara.value;
+        var qntdAgua = 240 * qntdXicara;
+        var colherSopaProp = colherSopa * qntdXicara
+
+        if (qntdAgua >= 1000) {
+            divResultadoCha.innerHTML = `Para ${qntdXicara} xícaras de chá, você precisará de ${qntdAgua / 1000} litros de água e ${colherSopaProp} colheres de sopa de chá de ${nomeChaPag}`
+        } else {
+            divResultadoCha.innerHTML = `Para ${qntdXicara} xícaras de chá, você precisará de ${qntdAgua} ml de água e ${colherSopaProp} colheres de sopa de chá de ${nomeChaPag}   `
+        }
+
     }
 
 </script>
