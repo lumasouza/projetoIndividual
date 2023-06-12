@@ -11,17 +11,14 @@
 </head>
 
 <body>
-    <div class="header">
+    <div id="divHeader" class="header">
         <div class="nav">
-
-            <img id="imgLogo" src="assets/logoChazim2.png" src="">
-
+            <img id="imgLogo" src="assets/logoChazim2.png">
             <ul class="navbar">
-                <li><a href="#">Home</a></li>
-                <li><a class="login" href="./telaLogin.html">Login</a></li>
-                <li><a class="cad" href="./telaCadastro.html">Cadastre-se</a></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a class="login" href="telaLogin.html">Login</a></li>
+                <li><a class="cad" href="telaCadastro.html">Cadastre-se</a></li>
             </ul>
-
         </div>
     </div>
 
@@ -121,10 +118,18 @@
 
 </html>
 
+<script src="session.js"></script>
+
 <script>
     // var fkCha = "";
     var colherSopa = 0;
     var nomeChaPag
+    var nomeCha
+
+    if (sessionStorage.NOME_CHA != "") {
+        iptPesquisaCha.value = sessionStorage.NOME_CHA
+        pesquisarCha()
+    }
 
     function pesquisarCha() {
         var nomeCha = iptPesquisaCha.value;

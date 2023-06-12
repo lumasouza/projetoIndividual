@@ -35,13 +35,17 @@ router.post("/visualizarConsumo", function (req, res) {
     chaController.visualizarConsumo(req, res);
 });
 
-//Recebendo os dados do html e direcionando para a função cadastrar de usuarioController.js
-router.post("/cadastrar", function (req, res) {
-    usuarioController.cadastrar(req, res);
-})
-
-router.post("/autenticar", function (req, res) {
-    usuarioController.entrar(req, res);
+router.get("/ultimasXicaras/:idUsuario", function (req, res) {
+    chaController.buscarUltimasXicaras(req, res);
 });
+
+router.get("/consumoTotal/:idUsuario", function (req, res) {
+    chaController.buscarConsumoTotal(req, res);
+});
+
+router.get("/listarFavoritosGeral", function (req, res) {
+    chaController.listarFavoritosGeral(req, res);
+});
+
 
 module.exports = router;

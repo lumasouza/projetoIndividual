@@ -12,6 +12,16 @@ function listarFavoritos(fkUsuario) {
     return database.executar(instrucao);
 }
 
+function addFavorito(fkUsuario, fkCha) {
+    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", fkUsuario, fkCha);
+    
+    var instrucao = `
+        INSERT INTO favoritos VALUES (null, '${fkUsuario}', '${fkCha}', date(now()));
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
+
 function listarCha(nome) {
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()");
     var instrucao = `
@@ -46,7 +56,7 @@ function listarContraindic(fkCha) {
     return database.executar(instrucao);
 }
 
-function registrarConsumo(fkUsuario, fkCha, qntd, dtConsumo ) {
+function registrarConsumo(fkUsuario, fkCha, qntd, dtConsumo) {
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()");
     var instrucao = `
     insert into consumo values
@@ -63,41 +73,60 @@ function visualizarConsumo(fkUsuario) {
 	join consumo on cha.id = fkCha
     join usuario on usuario.id = fkUsuario
 		where usuario.id = ${fkUsuario}
-        order by dtConsumo desc;
-    `;
-    console.log("Executando a instrução SQL: \n" + instrucao);
-    return database.executar(instrucao);
-} 
-
-function entrar(email, senha) {
-    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function entrar(): ", email, senha)
-    var instrucao = `
-        SELECT * FROM usuario WHERE email = '${email}' AND senha = '${senha}';
+        order by date(dtConsumo) desc;
     `;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
 }
 
-// Coloque os mesmos parâmetros aqui. Vá para a var instrucao
-function addFavorito(fkUsuario, fkCha) {
-    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", fkUsuario, fkCha);
-    
-    // Insira exatamente a query do banco aqui, lembrando da nomenclatura exata nos valores
-    //  e na ordem de inserção dos dados.
+function buscarUltimasXicaras(fkUsuario) {
+    // var instrucao = ''
+    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()");
     var instrucao = `
-        INSERT INTO favoritos VALUES (null, '${fkUsuario}', '${fkCha}', date(now()));
+    select sum(qntd) 'Xícaras', DATE_FORMAT (dtConsumo, '%d/%m/%Y') 'Data' from consumo
+        where fkUsuario = ${fkUsuario}
+	        group by dtConsumo
+                order by dtConsumo desc limit 7;
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
+
+function buscarConsumoTotal(fkUsuario) {
+    // var instrucao = ''
+    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()");
+    var instrucao = `
+    select truncate((sum(qntd)*240/1000), 2) 'total_litros', cha.nome 'Chá' from consumo
+	    join cha on fkCha = cha.id
+            where fkUsuario = ${fkUsuario}
+                group by cha.nome
+                    order by 'Total' desc
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
+
+function listarFavoritosGeral() {
+    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()");
+    var instrucao = `
+    select count(cha.nome) as maiorConsumo, cha.id, cha.nome, cha.imagem from cha
+	    join consumo on cha.id = fkcha
+            group by cha.nome, cha.id, cha.nome, cha.imagem
+                order by count(cha.nome) desc limit 5;
     `;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
 }
 
 module.exports = {
-    entrar,
     addFavorito,
     listarFavoritos,
     listarCha,
     listarFinalidade,
     listarContraindic,
     registrarConsumo,
-    visualizarConsumo
+    visualizarConsumo,
+    buscarUltimasXicaras,
+    buscarConsumoTotal,
+    listarFavoritosGeral
 };

@@ -17,11 +17,7 @@ function listarFavoritos(req, res) {
     chaModel.listarFavoritos(fkUsuario)
         .then(
             function (resultado) {
-                if (resultado.length > 0) {
-                    res.status(200).json(resultado);
-                } else {
-                    res.status(204).send("Nenhum resultado encontrado!")
-                }
+                res.json(resultado);
             }).catch(function (erro) {
                 console.log(erro);
                 console.log("Houve um erro ao buscar os avisos: ", erro.sqlMessage);
@@ -164,6 +160,45 @@ function addFavorito(req, res) {
         );
 }
 
+function buscarUltimasXicaras(req, res) {
+
+    var idUsuario = req.params.idUsuario;
+
+    chaModel.buscarUltimasXicaras(idUsuario).then(function (resultado) {
+        res.json(resultado);
+
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
+function buscarConsumoTotal(req, res) {
+
+    var idUsuario = req.params.idUsuario;
+
+    chaModel.buscarConsumoTotal(idUsuario).then(function (resultado) {
+        res.json(resultado);
+
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
+function listarFavoritosGeral(req, res) {
+
+    chaModel.listarFavoritosGeral().then(function (resultado) {
+        res.json(resultado);
+
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
 
 module.exports = {
     addFavorito,
@@ -173,5 +208,8 @@ module.exports = {
     listarContraindic,
     registrarConsumo,
     visualizarConsumo,
+    buscarUltimasXicaras,
+    buscarConsumoTotal,
+    listarFavoritosGeral,
     testar
 }

@@ -49,8 +49,8 @@ body {
 .header {
     border-bottom: 3px solid #ebe1e9;
     width: auto;
-    padding-left: 7.5vh;
-    padding-right: 7.5vh;
+    padding-left: 10%;
+    padding-right: 10%;
     background-color: #0000004b;
     justify-content: center;
     align-items: center;
@@ -64,8 +64,38 @@ body {
 
 .header a {
     text-decoration: none;
+
+    border-left: rgb(199,79,79) solid 0.5vh;
+    border-bottom: rgb(199,79,79) solid 0.5vh;
+    padding-left: 1vh;
+    padding-bottom: 0.5vh;
+
+    border-right: transparent solid 0.5vh;
+    border-top: transparent solid 0.5vh;
+    padding-right: 1vh;
+    padding-top: 0.5vh;
+
     font-size: 2vh;
     color: #ebe1e9;
+    transition: all .5s ease-out ;
+}
+
+.header a:hover {
+    text-decoration: none;
+    border-left: transparent solid 0.5vh;
+    border-bottom: transparent solid 0.5vh;
+    padding-left: 1vh;
+    padding-bottom: 0.5vh;
+
+    /* border-left: 0;
+    border-bottom: 0;
+    padding-left: 0;
+    padding-bottom: 0; */
+
+    border-right: #da761e solid 0.5vh;
+    border-top: #da761e solid 0.5vh;
+    padding-right: 1vh;
+    padding-top: 0.5vh;
 }
 
 .navbar {
@@ -76,15 +106,7 @@ body {
     align-items: center;
     justify-content: space-evenly;
     list-style: none;
-    background-color: #96217e;
-}
-
-a {
-    transition: all .3s ease-out ;
-}
-
-a:hover {
-    border-bottom: 3px solid #1972b2;
+    /* background-color: #96217e; */
 }
 
 /* .login {
@@ -284,7 +306,7 @@ span {
 }
 
 .registro {
-    background-color: beige;
+    background-color: rgb(218, 218, 188);
     color: #2c2c2e;
     width: 32%;
     text-align: center;
@@ -371,6 +393,13 @@ footer {
     text-align: start;
 }
 
+#divRegistro {
+    padding-top: 1vh;
+    background-color:#2c2c2e75;
+    height: 40vh;
+    overflow-y: scroll;
+}
+
 .inputRegistro {
         width: 25vh;
         min-width: auto;
@@ -419,4 +448,14 @@ footer {
     width: auto;
     height: auto;
     padding: 1vh;
+}
+
+.graficos {
+    display: flex;
+    justify-content: center;
+}
+
+.grafVazio {
+    margin: 5vh;
+    font-size: 1.5vh;
 }

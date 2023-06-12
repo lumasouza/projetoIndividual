@@ -9,28 +9,53 @@
     <title>cházim?</title>
 </head>
 
+<style>
+    .cha {
+        margin-top: 5vh;
+        width: 20vh;
+        border-radius: 15vh;
+    }
+
+    .contFavoritos {
+        color: whitesmoke;
+        display: flex;
+        flex-wrap: wrap;
+        text-align: center;
+        align-items: center;
+    }
+
+    .chaFav {
+        margin: 2vh 2vh 0vh 2vh;
+        text-align: center;
+    }
+</style>
+
 <body>
-    <div class="header">
+    <div id="divHeader" class="header">
         <div class="nav">
-
-            <img id="imgLogo" src="assets/logoChazim2.png" src="">
-
+            <img id="imgLogo" src="assets/logoChazim2.png">
             <ul class="navbar">
-                <!-- <li><a href="#">Home</a></li> -->
-                <li><a class="cad" href="./telaCadastro.html">Cadastre-se</a></li>
-                <li><a class="login" href="./telaLogin.html">Login</a></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a class="login" href="telaLogin.html">Login</a></li>
+                <li><a class="cad" href="telaCadastro.html">Cadastre-se</a></li>
             </ul>
-
         </div>
     </div>
 
     <div class="banner">
         <div class="container">
             <img id="imgBanner" src="assets/chazimBanner.png" alt="">
-            <div class="textoTitulo">Encontre facilmente seu cházinho da tarde ou uma ajudinha para o estômago por meio
-                das nossas classificações!</div>
+            <div class="textoTitulo">
+                <div>
+                    Pesquise aqui seus chás favoritos para aquele lanchinho da tarde, ajudar com o estômago ou dar uma
+                    acalmada!
+                </div>
+                <div>
+                    <input type="text" id="iptPesquisa"> <button onclick="pesquisar()">Pesquisar</button>
+                </div>
+            </div>
         </div>
-        <div class="containerFin">
+        <!-- <div class="containerFin">
             <div class="teste">
             <div class="finalidade">Expectorante</div>
             <div class="finalidade">Calmante</div>
@@ -39,32 +64,112 @@
             <div class="finalidade">Hipoglicemiante</div>
             <div class="finalidade">Anti-inflamatório</div>
             <div class="finalidade">Sintomas gripais</div>
-        </div>
+        </div> -->
 
-        </div>
+    </div>
 
     </div>
 
     <div class="tela">
         <div class="container">
-            <div class="">Muitas vezes consumidos como bebidas para acompanhar refeições, os chás possuem diversas propriedades medicinais e que podem ajudar no tratamento de alguns sintomas que não exigem atenção médica imediata, como desconfortos estomacais, inflamações ou graus leves de ansiedade, sendo, então, muito úteis quando consumidos com uma frequência adequada para fins profiláticos, curativos ou paliativos</div>
-            <img id="imgTela1" src="assets/cha.png" alt="">
+            <div class="textoTela1">Muitas vezes consumidos como bebidas para acompanhar refeições, os chás possuem
+                diversas propriedades medicinais e que podem ajudar no tratamento de alguns sintomas que não exigem
+                atenção médica imediata, como desconfortos estomacais, inflamações ou graus leves de ansiedade, sendo,
+                então, muito úteis quando consumidos com uma frequência adequada para fins profiláticos, curativos ou
+                paliativos</div>
+            <img id="imgTela1" src="assets/tea-set.png" alt="">
         </div>
     </div>
 
-    <div>
-        <div>Chás populares</div>
-        <div>
-            <div>Camomila</div>
-            <div>Capim limão</div>
-            <div>Hortelã</div>
-            <div>Erva doce</div>
+    <div class="tela">
+        <div class="subtela">
+            <div style="text-align: center; font-size: 5vh;">Chás populares entre os usuários</div>
+            <div id="divFavGeral" style="display: flex;">
+
+            </div>
         </div>
     </div>
 
     <footer>
-        
+
     </footer>
 </body>
 
 </html>
+
+<script src="session.js"></script>
+
+<script>
+
+    function pesquisar() {
+        var pesquisa = iptPesquisa.value
+
+        if (pesquisa == '') {
+            divMsgErroFav.innerHTML = "Campo vazio! Por favor, verifique e tente novamente"
+        } else {
+            fetch("/cha/listarCha", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    nomeChaServer: pesquisa
+                })
+            }).then(function (resposta) {
+
+                console.log("resposta: ", resposta);
+
+                if (resposta.ok) {
+
+                    resposta.json().then(json => {
+
+                        //alguma coisa aqui.... não vai dar pra reusar a função
+                        if (json.length > 0) {
+                            sessionStorage.NOME_CHA = json[0].nome;
+
+                            setTimeout(function () {
+                            window.location = "/telaPesquisa.html";
+                        }, 1000); // apenas para exibir o loading
+                        } else {
+                            divMsgErroFav.innerHTML = "O chá não foi encontrado em nossa base de dados"
+                        }
+                    });
+
+                } else {
+                    throw ("Houve um erro ao tentar realizar o cadastro!");
+                }
+            }).catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+            });
+
+            return false;
+        }
+    }
+
+
+
+    fetch(`cha/listarFavoritosGeral`, { cache: 'no-store' }).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (resposta) {
+                console.log(`Dados recebidos FAV_GERAL: ${JSON.stringify(resposta)}`);
+
+                if (resposta.length > 0) {
+
+                    for (var i = 0; i < resposta.length; i++) {
+                        var favAtual = resposta[i];
+                        // listaCha.push(favAtual.nome);
+                        divFavGeral.innerHTML += `<div class="chaFav">
+                                <div><img class="cha" src="${favAtual.imagem}" alt=""></div>
+                                <div>${favAtual.nome}</div>
+                            </div>`
+                    }
+                }
+            });
+        } else {
+            console.error('Nenhum dado encontrado ou erro na API');
+        }
+    })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+        });
+</script>

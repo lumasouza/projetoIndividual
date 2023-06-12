@@ -30,9 +30,9 @@
     }
 </style>
 
-<body onload="recuperarFavoritos(), visualizarConsumo()">
+<body onload="recuperarFavoritos(), visualizarConsumo(), obterDadosGrafico(), obterDadosGraficoDoughnut()">
     <!-- NAVBAR -->
-    <div class="header">
+    <div id="divHeader" class="header">
         <div class="nav">
             <img id="imgLogo" src="assets/logoChazim2.png">
             <ul class="navbar">
@@ -73,6 +73,7 @@
 
     </div>
 
+    <!-- REGISTRAR/ÚLTIMOS REGISTROS -->
 
     <div class="container">
 
@@ -88,16 +89,19 @@
                 <button onclick="registrarConsumo()">Registrar consumo</button>
             </div>
 
-            <div id="divMsgReg" style="text-align: center; margin-bottom: 2vh;"></div>
+            <div id="divMsgReg" style="text-align: center; margin-bottom: 2vh;">
+            </div>
 
             <div class="subtitulo">Últimos consumos registrados</div>
-            <div id="divRegistro" style="text-align: start;">
 
+            <div id="divRegistro" style="text-align: start;">
             </div>
 
         </div>
 
     </div>
+
+    <!-- GRÁFICOS -->
 
     <div class="container">
 
@@ -107,20 +111,27 @@
             <div class="subtitulo">Gráficos</div>
 
             <div class="">
-                <div style="display: flex;">
 
-                    <div>Acompanhe seus últimos consumos</div>
+                <div>
+
                     <div>
-                        <canvas id="myChart" style="position: relative; height: 30vh; width: 35vw;"></canvas>
+                        Acompanhe suas estatísticas de consumo
+                    </div>
+
+                    <div id="divChartConsumo" class="graficos">
+                        <canvas id="myChartConsumo" style="position: relative; height: 15vh; width: 35vh;"></canvas>
                     </div>
 
                 </div>
 
-                <div style="display: flex;">
+                <div>
 
-                    <div>Seus chás mais bebidos</div>
                     <div>
-                        <canvas id="myChart2" style="position: relative; height: 25vh; width: 25vw;"></canvas>
+                        Seus chás mais consumidos
+                    </div>
+
+                    <div id="divChartRanking" class="graficos">
+                        <canvas id="myChartRanking"></canvas>
                     </div>
 
                 </div>
@@ -144,7 +155,10 @@
 
 </html>
 
+<script src="session.js"></script>
+
 <script>
+    var listaCores = ['#3d42d1', '#32b096', '#e68932', '#edb966', '#e37bbd', '#9258bf', '#58bf74']
     var nomeUsuario = sessionStorage.NOME_USUARIO;
     var idUsuario = sessionStorage.ID_USUARIO;
     var listaCha = []
@@ -153,7 +167,6 @@
 
     // Recuperando chás favoritos do usuário
     function recuperarFavoritos() {
-        divFavoritos.innerHTML = ""
 
         fetch("/cha/listarFavoritos", {
             method: "POST",
@@ -172,15 +185,21 @@
                 resposta.json().then(json => {
                     // console.log(json);
                     console.log('Resposta listarFavoritos: ', JSON.stringify(json));
+                    if (json.length > 0) {
+                        
+                        for (var i = 0; i < json.length; i++) {
+                            var favAtual = json[i];
+                            listaCha.push(favAtual.nome);
+                            divFavoritos.innerHTML += `<div class="chaFav">
+                                <div><img class="cha" src="${favAtual.imagem}" alt=""></div>
+                                <div>${favAtual.nome}</div>
+                            </div>`
+                        }
 
-                    for (var i = 0; i < json.length; i++) {
-                        var favAtual = json[i];
-                        listaCha.push(favAtual.nome);
-                        divFavoritos.innerHTML += `<div class="chaFav">
-                            <div><img class="cha" src="${favAtual.imagem}" alt=""></div>
-                            <div>${favAtual.nome}</div>
-                        </div>`
+                    } else {
+                        divFavoritos.innerHTML = "<div>Parece que não há nenhum favorito ainda. Que tal adicionar um?</div>"
                     }
+
 
                 });
 
@@ -238,6 +257,7 @@
                                     console.log("resposta: ", resposta);
 
                                     if (resposta.ok) {
+                                        divFavoritos.innerHTML = ""
                                         divMsgErroFav.innerHTML = "Chá adicionado aos favoritos"
                                         recuperarFavoritos()
                                         setTimeout(() => {
@@ -320,6 +340,8 @@
                                     iptDataReg.value = ""
                                     iptXicarasReg.value = 0
                                     visualizarConsumo()
+                                    // obterDadosGrafico()
+                                    // obterDadosGraficoDoughnut()
                                     // recuperarFavoritos()
                                     // setTimeout(() => {
                                     //     divMsgErroFav.innerHTML = "";
@@ -351,12 +373,8 @@
         }
     }
 
+    // Visualizando o histório de consumo do usuário
     function visualizarConsumo() {
-        divRegistro.innerHTML = `<div class="linha" >
-                    <div class="registro" style="background-color: darksalmon;">Nome do chá</div>
-                    <div class="registro" style="background-color: darksalmon;">Quantidade de xícaras</div>
-                    <div class="registro" style="background-color: darksalmon;">Data do Consumo</div>
-                </div>`
 
         fetch("/cha/visualizarConsumo", {
             method: "POST",
@@ -376,13 +394,23 @@
                     // console.log(json);
                     console.log('Resposta visualizarConsumo: ', JSON.stringify(json));
                     // alert("entrei no visualizarConsumo!!!")
+                    if (json.length > 0) {
+                        divRegistro.innerHTML = `<div class="linha">
+                        <div class="registro" style="background-color: darksalmon;">Nome do chá</div>
+                        <div class="registro" style="background-color: darksalmon;">Quantidade de xícaras</div>
+                        <div class="registro" style="background-color: darksalmon;">Data do Consumo</div>
+                        </div>`
+                        
+                        for (var i = 0; i < json.length; i++) {
+                            divRegistro.innerHTML += `<div class="linha">
+                        <div class="registro">${json[i].nome}</div>
+                        <div class="registro">${json[i].qntd}</div>
+                        <div class="registro">${json[i].dtConsumo}</div>
+                    </div>`
+                        }
 
-                    for (var i = 0 ; i < json.length ; i++) {
-                        divRegistro.innerHTML += `<div class="linha">
-                    <div class="registro">${json[i].nome}</div>
-                    <div class="registro">${json[i].qntd}</div>
-                    <div class="registro">${json[i].dtConsumo}</div>
-                </div>`
+                    } else {          
+                        divRegistro.innerHTML = `<div id="divRegVazio">Nenhum registro adicionado ainda</div>`
                     }
 
                 });
@@ -394,142 +422,178 @@
             console.log(`#ERRO: ${resposta}`);
         });
     }
-    // Recuperar chás já existentes de uma lista
-    // var listaCha = ['Camomila', 'Erva doce', 'Hortelã', 'Melissa'];
-
-    // for (var i = 0; i < listaCha.length; i++) {
-    //     const chaAtual = listaCha[i];
-    //     divChasFav.innerHTML += `<li> ${chaAtual} </li>`
-    // }
-
-    // Adicionar novo chá - verificar se já existe na lista
-    function addChaFav() {
-        var novoCha = iptAddChaFav.value;
-        var naoExisteCha = false;
-
-        // if (listaCha.indexOf(novoCha) > -1) {
-        //     listaCha.push(novoCha);
-        //     divChasFav.innerHTML += `<li> ${listaCha[listaCha.length - 1]} </li>`
-        // } else {
-        //     alert("Chá já existe na lista");
-        // }
-
-        for (var i = 0; i < listaCha.length; i++) {
-            const chaAtual = listaCha[i];
-            if (novoCha.toLowerCase() == chaAtual.toLowerCase()) {
-                alert("Chá já existe na lista");
-                var naoExisteCha = true;
-            }
-        }
-
-        if (naoExisteCha == false) {
-            listaCha.push(novoCha);
-            divChasFav.innerHTML += `<li> ${listaCha[listaCha.length - 1]} </li>`
-        }
-    }
-
-    // Registrar consumo de um chá
-    function registrarConsumo2() {
-        var cha = iptCha.value;
-        var xicaras = Number(iptXicaras.value);
-        var data = iptData.value;
-
-        divRegistro.innerHTML += `<div> Chá: ${cha} - Xícaras: ${xicaras} - Data: ${data} </div>`
-    }
 </script>
 
-
-<!-- CHART JS -->
+    <!-- GERANDO GRÁFICOS -->
 <script>
-    // GRÁFICO DIÁRIO
     Chart.defaults.color = '#FFFFFF';
 
-    const labels = [
-        '18/05/2023',
-        '19/05/2023',
-        '22/05/2023',
-        '23/05/2023',
-        '28/05/2023',
-        '29/05/2023',
-        '31/05/2023',
-    ];
+    function obterDadosGrafico(fkUsuario) {
 
-    const data = {
-        labels: labels,
-        datasets: [{
-            label: "Quantidade de xícaras",
-            backgroundColor: "rgb(255, 127, 39)",
-            borderColor: "rgb(255, 127, 39)",
-            data: [3, 2, 5, 1, 4, 2, 4]
-        }]
+        fetch(`/cha/ultimasXicaras/${idUsuario}`, { cache: 'no-store' }).then(function (response) {
+            if (response.ok) {
+                response.json().then(function (resposta) {
+                    console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+                    if (resposta.length > 0) {
+                        resposta.reverse();
+                        plotarGrafico(resposta);
+                    } else {
+                        divChartRanking.innerHTML = `<div class="grafVazio">Ainda não existem dados para gerar gráficos!<br>Registre chás que você consumiu para gerá-los</div>`
+                    }
+                });
+            } else {
+                console.error('Nenhum dado encontrado ou erro na API');
+            }
+        })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+            });
+    }
+
+    function plotarGrafico(resposta) {
+
+        console.log('iniciando plotagem do gráfico...');
+
+        // Criando estrutura para plotar gráfico - labels
+        let labels = [];
+
+        // Criando estrutura para plotar gráfico - dados
+        let dados = {
+            labels: labels,
+            datasets: [{
+                label: 'Xícaras',
+                data: [],
+                fill: false,
+                borderColor: 'rgb(108, 91, 217)',
+                tension: 0.1
+            }]
+        };
+
+        console.log('----------------------------------------------')
+        console.log('Estes dados foram recebidos pela funcao "obterDadosGrafico" e passados para "plotarGrafico":')
+        console.log(resposta)
+
+        // Inserindo valores recebidos em estrutura para plotar o gráfico
+        for (i = 0; i < resposta.length; i++) {
+            var registro = resposta[i];
+            labels.push(registro.Data);
+            dados.datasets[0].data.push(registro.Xícaras);
+        }
+
+        console.log('----------------------------------------------')
+        console.log('O gráfico será plotado com os respectivos valores:')
+        console.log('Labels:')
+        console.log(labels)
+        console.log('Dados:')
+        console.log(dados.datasets)
+        console.log('----------------------------------------------')
+
+        // Criando estrutura para plotar gráfico - config
+        const config = {
+            type: 'line',
+            data: dados,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                }
+            }
+        };
+
+        // Adicionando gráfico criado em div na tela
+        let myChartCha = new Chart(
+            document.getElementById(`myChartConsumo`),
+            config
+        );
+
     };
 
-    const config = {
-        type: `line`,
-        data: data,
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        stepSize: 1
+    function obterDadosGraficoDoughnut(fkUsuario) {
+
+        fetch(`cha/consumoTotal/${idUsuario}`, { cache: 'no-store' }).then(function (response) {
+            if (response.ok) {
+                response.json().then(function (resposta) {
+                    console.log(`Dados recebidos DOUGHTNUT: ${JSON.stringify(resposta)}`);
+                    if (resposta.length > 0) {
+                        resposta.reverse();
+                        plotarGraficoDoughnut(resposta);
+                    } else {
+                        divChartConsumo.innerHTML = `<div class="grafVazio">Ainda não existem dados para gerar gráficos!<br>Registre chás que você consumiu para gerá-los</div>`
+                    }
+                });
+            } else {
+                console.error('Nenhum dado encontrado ou erro na API');
+            }
+        })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+            });
+
+    }
+
+    function plotarGraficoDoughnut(resposta) {
+
+        console.log('iniciando plotagem do gráfico...');
+
+        // Criando estrutura para plotar gráfico - labels
+        let labels = [];
+
+        // Criando estrutura para plotar gráfico - dados
+        let dados = {
+            labels: labels,
+            datasets: [{
+                label: 'Total em litros',
+                data: [],
+                fill: false,
+                backgroundColor: [],
+                borderColor: 'transparent',
+                tension: 0.1
+            }]
+        };
+
+        console.log('----------------------------------------------')
+        console.log('Estes dados foram recebidos pela funcao "obterDadosGrafico" e passados para "plotarGrafico":')
+        console.log(resposta)
+
+        // Inserindo valores recebidos em estrutura para plotar o gráfico
+        for (i = 0; i < resposta.length; i++) {
+            var registro = resposta[i];
+            labels.push(registro.Chá);
+            dados.datasets[0].backgroundColor.push(listaCores[i])
+            dados.datasets[0].data.push(registro.total_litros);
+        }
+
+        console.log('----------------------------------------------')
+        console.log('O gráfico será plotado com os respectivos valores:')
+        console.log('Labels:')
+        console.log(labels)
+        console.log('Dados:')
+        console.log(dados.datasets)
+        console.log('----------------------------------------------')
+
+        // Criando estrutura para plotar gráfico - config
+        const configRank = {
+            type: 'doughnut',
+            data: dados,
+            options: {
+                plugins: {
+                    legend: {
+                        position: 'right'
                     }
                 }
             }
         }
+        // Adicionando gráfico criado em div na tela
+        let myChartRank = new Chart(
+            document.getElementById(`myChartRanking`),
+            configRank
+        );
+
     };
 
-    const myChart = new Chart(
-        document.getElementById('myChart'),
-        config
-    )
-
-    // GRÁFICO TOTAL
-    const labels2 = [
-        'Capim limão',
-        'Camomila',
-        'Hortelã',
-        'Erva doce',
-    ];
-
-    const data2 = {
-        labels: labels2,
-        datasets: [{
-            label: "Quantidade de xícaras",
-            backgroundColor: [
-                "rgb(255, 127, 39)",
-                "rgb(0, 127, 39)",
-                "rgb(50, 201, 58)",
-                "rgb(130, 70, 150)",
-
-            ],
-            borderColor: "transparent",
-            data: [3.7, 1.9, 2.5, 0.7]
-        }]
-    };
-
-    const config2 = {
-        type: `doughnut`,
-        data: data2,
-        options: {
-            plugins: {
-                legend: {
-                    position: 'right'
-                }
-            }
-            // scales: {
-            //     y: {
-            //         beginAtZero: true,
-            //         ticks: {
-            //             stepSize: 1
-            //         }
-            //     }
-            // }
-        }
-    };
-
-    const myChart2 = new Chart(
-        document.getElementById('myChart2'),
-        config2
-    )
-</script>
+</script>   
