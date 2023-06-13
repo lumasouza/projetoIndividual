@@ -31,6 +31,7 @@ input::-webkit-inner-spin-button {
 body {
     overflow: overlay;
     background-color: burlywood;
+    background: linear-gradient(45deg, #c74f4f, #e3935e);
     /* background-size: cover; */
     /* background-repeat: no-repeat; */
     /* background-attachment: fixed; */
@@ -43,7 +44,11 @@ body {
 #imgLogo {
     margin-top: 1vh;
     margin-bottom: 1vh;
-    width: 18vh;
+    width: 25vh;
+}
+
+#imgLogo:hover {
+    cursor: pointer;
 }
 
 .header {
@@ -65,7 +70,7 @@ body {
 .header a {
     text-decoration: none;
 
-    border-left: rgb(199,79,79) solid 0.5vh;
+    border-left: #c74f4f solid 0.5vh;
     border-bottom: rgb(199,79,79) solid 0.5vh;
     padding-left: 1vh;
     padding-bottom: 0.5vh;
@@ -141,6 +146,15 @@ body {
 
 /* CONTEUDO  home*/
 
+.fundoTransparente {
+    display: flex;
+    background-color: rgba(81, 19, 26, 0.432);
+    justify-content: center;
+    align-items: center;
+    padding: 3vh;
+    border-radius: 5vh;
+}
+
 .banner {
     padding: 15vh;
     margin: 0;
@@ -167,12 +181,15 @@ body {
     align-items: center;
     text-align: center;
 
-    background-color: rgb(199,79,79);
+    /* background-color: rgb(199,79,79); */
+    background-color: rgba(81, 19, 26, 0.432);
     width: 100vh;
 
     margin: 5vh;
     margin-bottom: 0;
     padding: 5vh;
+    border-radius: 5vh;
+
 }
 
 .conteudo2 {
@@ -181,22 +198,30 @@ body {
     align-items: center;
     text-align: center;
 
-    background-color: rgb(199,79,79);
+    /* background-color: rgb(199,79,79); */
+    background-color: rgba(81, 19, 26, 0.432);
+
     width: 100vh;
 
     margin: 5vh;
     padding: 5vh;
+    border-radius: 5vh;
+
 }
 
 .pesquisa {
     margin: 5vh;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
 }
 
 .pesquisa button {
     margin: 2vh 0vh 2vh 0vh;
-    height: 5vh;
+    height: auto;
     width: 50%;
-    font-size: 24px;
+    font-size: 3vh;
+    padding: 2vh;
 }
 
 .titulo {
@@ -245,7 +270,7 @@ span {
     margin: 0px 50px 0px 0px;
     background-color: #74c361;
     color:#101012;
-    font-size: 22px;
+    font-size: 2vh;
     font-weight: bold;
     padding: 3vh;
     border-radius: 6vh;
@@ -264,7 +289,7 @@ span {
     margin: 0px 50px 0px 0px;
     background-color:#6a3e96;
     color:#dfe3ea;
-    font-size: 22px;
+    font-size: 2vh;
     font-weight: bold;
     padding: 3vh;
     border-radius: 6vh;
@@ -313,6 +338,7 @@ span {
     padding: 0.5vh 0vh 0.5vh 0vh;
     margin: 0vh 0vh 1vh 0vh;
     height: auto;
+    border-radius: 1vh;
 }
 
 .iptCoisas {
@@ -334,18 +360,20 @@ span {
 }
 
 button {
-    background:linear-gradient(45deg, #1972b2, #96217e);
-    background-color: #1972b2;
+    /* background:linear-gradient(45deg, #1972b2, #96217e); */
+    background-color: #da761e;
     color:#dfe3ea;
     border-radius: 6vh;
     border: none;
-    width: 35vh;
+    padding: 1.5vh;
+    font-size: 2vh;
+    width: auto;
     transition: background-color .3s ease-out;
 }
 
 button:hover {
     cursor: pointer;
-    background-color: antiquewhite;
+    background-color: #f97171;
     /* background: none; */
     /* background:linear-gradient(45deg, #4d92c3, #c663b2); */
     transition: background-color .3s ease-out;
@@ -383,6 +411,10 @@ button:hover {
 }
 
 footer {
+    /* display: flex; */
+    padding: 5vh;
+    justify-content: space-evenly;
+    align-items: center;
     height: 30vh;
     margin-top: 5vh;
     background-color:rgba(128, 0, 0, 0.365);
@@ -398,6 +430,7 @@ footer {
     background-color:#2c2c2e75;
     height: 40vh;
     overflow-y: scroll;
+    border-radius: 1vh;
 }
 
 .inputRegistro {
@@ -438,21 +471,35 @@ footer {
 }
 
 #divMsgErroFav {
-    font-size: 22px;
+    margin-top: 3vh;
+    font-size: 18px;
     color: yellow;
+    text-align: center;
+    margin-left: 6vh;
 }
 
 #divMsgReg {
     font-size: 16px;
-    background-color: #101012;
+    /* background-color: #101012; */
     width: auto;
     height: auto;
     padding: 1vh;
 }
 
+.aviso {
+    /* margin-top: 10vh; */
+    border-radius: 3vh;
+    background-color: #101012;
+    width: auto;
+    padding: 1vh 3vh 1vh 3vh;
+}
+
 .graficos {
     display: flex;
     justify-content: center;
+    /* align-items: center; */
+    /* text-align: center; */
+
 }
 
 .grafVazio {

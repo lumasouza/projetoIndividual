@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>cházim?</title>
+    <title>home | cházim?</title>
 </head>
 
 <style>
@@ -33,65 +33,75 @@
 <body>
     <div id="divHeader" class="header">
         <div class="nav">
-            <img id="imgLogo" src="assets/logoChazim2.png">
+            <img id="imgLogo" onclick="window.location.href='index.html'" src="assets/logoChazim2.png">
             <ul class="navbar">
-                <li><a href="index.html">Home</a></li>
-                <li><a class="login" href="telaLogin.html">Login</a></li>
-                <li><a class="cad" href="telaCadastro.html">Cadastre-se</a></li>
+                <li><b><a href="index.html">Home</a></b></li>
+                <li><b><a class="login" href="telaLogin.html">Login</a></b></li>
+                <li><b><a class="cad" href="telaCadastro.html">Cadastre-se</b></a></li>
             </ul>
         </div>
     </div>
 
     <div class="banner">
         <div class="container">
-            <img id="imgBanner" src="assets/chazimBanner.png" alt="">
-            <div class="textoTitulo">
-                <div>
-                    Pesquise aqui seus chás favoritos para aquele lanchinho da tarde, ajudar com o estômago ou dar uma
-                    acalmada!
-                </div>
-                <div>
-                    <input type="text" id="iptPesquisa"> <button onclick="pesquisar()">Pesquisar</button>
+            <div
+                style="display: flex; background-color: rgba(81, 19, 26, 0.432); justify-content: center; align-items: center; padding: 3vh; border-radius: 5vh;">
+                <img id="imgBanner" src="assets/chazimBanner.png" alt="">
+                <div class="textoTitulo">
+                    <div>
+                        Pesquise aqui seus chás favoritos para aquele lanchinho da tarde, ajudar com o estômago ou dar uma acalmada!
+                    </div>
+                    <div style="margin-top: 4vh;">
+                        <input type="text" id="iptPesquisa"> <button onclick="pesquisar()">Pesquisar</button><br>
+                        <span id="spanErro" style="color: yellow; font-size: 2vh;"></span>
+                    </div>
                 </div>
             </div>
         </div>
-        <!-- <div class="containerFin">
-            <div class="teste">
-            <div class="finalidade">Expectorante</div>
-            <div class="finalidade">Calmante</div>
-            <div class="finalidade">Digestivo</div>
-            <div class="finalidade">Diurético</div>
-            <div class="finalidade">Hipoglicemiante</div>
-            <div class="finalidade">Anti-inflamatório</div>
-            <div class="finalidade">Sintomas gripais</div>
-        </div> -->
-
     </div>
 
     </div>
 
     <div class="tela">
         <div class="container">
-            <div class="textoTela1">Muitas vezes consumidos como bebidas para acompanhar refeições, os chás possuem
-                diversas propriedades medicinais e que podem ajudar no tratamento de alguns sintomas que não exigem
-                atenção médica imediata, como desconfortos estomacais, inflamações ou graus leves de ansiedade, sendo,
-                então, muito úteis quando consumidos com uma frequência adequada para fins profiláticos, curativos ou
-                paliativos</div>
-            <img id="imgTela1" src="assets/tea-set.png" alt="">
+            <div class="fundoTransparente">
+                <div class="textoTela1"><span style="font-size: 4vh;">Perfeito para qualquer momento</span><br><br>
+                    <span style="font-size: 2.5vh;">Muitas vezes consumidos como bebidas para acompanhar refeições, os chás possuem
+                    diversas propriedades medicinais e que podem ajudar no tratamento de alguns sintomas que não exigem
+                    atenção médica imediata, como desconfortos estomacais, inflamações ou graus leves de ansiedade,
+                    sendo,
+                    então, muito úteis quando consumidos com uma frequência adequada para fins profiláticos, curativos
+                    ou
+                    paliativos</span></div>
+                <img id="imgTela1" src="assets/tea-set.png" alt="">
+            </div>
         </div>
     </div>
 
     <div class="tela">
-        <div class="subtela">
-            <div style="text-align: center; font-size: 5vh;">Chás populares entre os usuários</div>
+        <div class="container" style="display: block;">
+            <!-- <div style="background-color: rgba(81, 19, 26, 0.432); justify-content: center; align-items: center; border-radius: 5vh; padding: 29vh;margin-top: 20vh; margin-bottom: 20vh;"> -->
+
+            <div style="text-align: center; font-size: 5vh; background-color: rgba(81, 19, 26, 0.432); border-radius: 5vh;">Chás populares entre os usuários</div>
             <div id="divFavGeral" style="display: flex;">
+
+            <!-- </div> -->
 
             </div>
         </div>
     </div>
 
     <footer>
-
+        <div style="display: flex; justify-content: space-evenly; align-items: center;">
+            <div><img id="imgLogo" onclick="window.location.href='index.html'" src="assets/logoChazim2.png"></div>
+            <div style="width: 50%;"><b>Atenção!</b><br><br>O projeto <i>cházim</i> é um trabalho de Pesquisa e Inovação
+                iniciado durante o primeiro semestre da instituição São Paulo Tech School (SPTech), com o propósito de
+                dispor ao usuário um registro de consumo de chás e um acesso rápido às informações de seus chás
+                favoritos.<br><br><b>Toda informação contida neste site não deve substituir orientação médica adequada,
+                    sequer tratada como absoluta, indicando-se sempre tratamento e diagnóstico especializados.</b></div>
+        </div>
+        <div style="display: flex; justify-content: center; margin-top: 5vh;">2023 © Luma Souza - Todos os direitos
+            reservados</div>
     </footer>
 </body>
 
@@ -105,7 +115,7 @@
         var pesquisa = iptPesquisa.value
 
         if (pesquisa == '') {
-            divMsgErroFav.innerHTML = "Campo vazio! Por favor, verifique e tente novamente"
+            spanErro.innerHTML = "Campo vazio! Por favor, verifique e tente novamente"
         } else {
             fetch("/cha/listarCha", {
                 method: "POST",
@@ -127,11 +137,12 @@
                         if (json.length > 0) {
                             sessionStorage.NOME_CHA = json[0].nome;
 
+                            spanErro.innerHTML = "Um momentinho..."
                             setTimeout(function () {
-                            window.location = "/telaPesquisa.html";
-                        }, 1000); // apenas para exibir o loading
+                                window.location = "/telaPesquisa.html";
+                            }, 1000); // apenas para exibir o loading
                         } else {
-                            divMsgErroFav.innerHTML = "O chá não foi encontrado em nossa base de dados"
+                            spanErro.innerHTML = "O chá não foi encontrado em nossa base de dados"
                         }
                     });
 

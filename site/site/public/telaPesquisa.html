@@ -13,11 +13,11 @@
 <body>
     <div id="divHeader" class="header">
         <div class="nav">
-            <img id="imgLogo" src="assets/logoChazim2.png">
+            <img id="imgLogo" onclick="window.location.href='index.html'" src="assets/logoChazim2.png">
             <ul class="navbar">
-                <li><a href="index.html">Home</a></li>
-                <li><a class="login" href="telaLogin.html">Login</a></li>
-                <li><a class="cad" href="telaCadastro.html">Cadastre-se</a></li>
+                <li><b><a href="index.html">Home</a></b></li>
+                <li><b><a class="login" href="telaLogin.html">Login</a></b></li>
+                <li><b><a class="cad" href="telaCadastro.html">Cadastre-se</b></a></li>
             </ul>
         </div>
     </div>
@@ -109,9 +109,11 @@
     </div>
 
     <footer>
-
-
-
+        <div style="display: flex; justify-content: space-evenly; align-items: center;">
+            <div><img id="imgLogo" onclick="window.location.href='index.html'" src="assets/logoChazim2.png"></div>
+            <div style="width: 50%;"><b>Atenção!</b><br><br>O projeto <i>cházim</i> é um trabalho de Pesquisa e Inovação iniciado durante o primeiro semestre da instituição São Paulo Tech School (SPTech), com o propósito de dispor ao usuário um registro de consumo de chás e um acesso rápido às informações de seus chás favoritos.<br><br><b>Toda informação contida neste site não deve substituir orientação médica adequada, sequer tratada como absoluta, indicando-se sempre tratamento e diagnóstico especializados.</b></div>
+        </div>
+        <div style="display: flex; justify-content: center; margin-top: 5vh;">2023 © Luma Souza - Todos os direitos reservados</div>
     </footer>
 
 </body>
@@ -161,6 +163,9 @@
                         if (json.length > 0) {
                             console.log(json)
                             // document.getElementById("divEsconder").style.display = "block"
+
+                            divMsgErroPesquisa.innerHTML = ""
+
                             nomeChaPag = json[0].nome
 
                             document.getElementById("divEsconder1").style.display = "flex"
@@ -259,7 +264,8 @@
 
 
                         } else {
-                            divMSgErroPesquisa.innerHTML = "O chá não foi encontrado em nossa base de dados"
+                            divMsgErroPesquisa.innerHTML = "O chá não foi encontrado em nossa base de dados"
+                            document.getElementById("divMsgErroPesquisa").style.color = 'yellow'
                         }
                     });
 

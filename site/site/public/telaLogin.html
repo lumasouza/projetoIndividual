@@ -6,17 +6,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>login | cházim?</title>
 </head>
 
 <body>
     <div id="divHeader" class="header">
         <div class="nav">
-            <img id="imgLogo" src="assets/logoChazim2.png">
+            <img id="imgLogo" onclick="window.location.href='index.html'" src="assets/logoChazim2.png">
             <ul class="navbar">
-                <li><a href="index.html">Home</a></li>
-                <li><a class="login" href="telaLogin.html">Login</a></li>
-                <li><a class="cad" href="telaCadastro.html">Cadastre-se</a></li>
+                <li><b><a href="index.html">Home</a></b></li>
+                <li><b><a class="login" href="telaLogin.html">Login</a></b></li>
+                <li><b><a class="cad" href="telaCadastro.html">Cadastre-se</b></a></li>
             </ul>
         </div>
     </div>
@@ -35,7 +35,7 @@
 
 
                 <div class="label-float">
-                    <input id="iptSenha" placeholder=" " required>
+                    <input type="password" id="iptSenha" placeholder=" " required>
                     <label for="iptSenha" id="labSenha">Senha</label>
                 </div>
 
@@ -99,7 +99,7 @@
     
                 } else {
     
-                    divErro.innerHTML = `E-mail ou senha incorretos!`
+                    divMsgErro.innerHTML = `E-mail ou senha incorretos!`
     
                     console.log("Houve um erro ao tentar realizar o login!");
     

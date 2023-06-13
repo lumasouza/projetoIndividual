@@ -31,18 +31,11 @@
 </style>
 
 <body onload="recuperarFavoritos(), visualizarConsumo(), obterDadosGrafico(), obterDadosGraficoDoughnut()">
+
     <!-- NAVBAR -->
     <div id="divHeader" class="header">
-        <div class="nav">
-            <img id="imgLogo" src="assets/logoChazim2.png">
-            <ul class="navbar">
-                <li><a href="index.html">Home</a></li>
-                <li><a class="login" href="telaLogin.html">Login</a></li>
-                <li><a class="cad" href="telaCadastro.html">Cadastre-se</a></li>
-            </ul>
-        </div>
+        <!-- session.js trazendo nabvar -->
     </div>
-    <!-- NAVBAR -->
 
     <!-- CHÁS FAVORITOS -->
 
@@ -62,12 +55,12 @@
 
             </div>
 
-            <div class="subtitulo" style="text-align: start;">
+            <div>
                 <input id="iptAddChaFav" type="text" placeholder="Adicione um novo chá favorito">
                 <!-- vindo do fetch -->
                 <button onclick="procurarCha()">Adicionar</button>
             </div>
-            <div id="divMsgErroFav" style="text-align: start;"></div>
+            <div id="divMsgErroFav"></div>
 
         </div>
 
@@ -124,14 +117,15 @@
 
                 </div>
 
-                <div>
+                <div style="margin-top: 8vh;">
 
                     <div>
                         Seus chás mais consumidos
                     </div>
 
-                    <div id="divChartRanking" class="graficos">
-                        <canvas id="myChartRanking"></canvas>
+                    <div id="divChartRanking" class="graficos" style="">
+                        <canvas id="myChartRanking" style="max-width: 50vh; max-height: 50vh;"></canvas>
+                        <!-- <div>AAAAAAAAAAA</div> -->
                     </div>
 
                 </div>
@@ -146,9 +140,11 @@
     </div>
 
     <footer>
-
-
-
+        <div style="display: flex; justify-content: space-evenly; align-items: center;">
+            <div><img id="imgLogo" onclick="window.location.href='index.html'" src="assets/logoChazim2.png"></div>
+            <div style="width: 50%;"><b>Atenção!</b><br><br>O projeto <i>cházim</i> é um trabalho de Pesquisa e Inovação iniciado durante o primeiro semestre da instituição São Paulo Tech School (SPTech), com o propósito de dispor ao usuário um registro de consumo de chás e um acesso rápido às informações de seus chás favoritos.<br><br><b>Toda informação contida neste site não deve substituir orientação médica adequada, sequer tratada como absoluta, indicando-se sempre tratamento e diagnóstico especializados.</b></div>
+        </div>
+        <div style="display: flex; justify-content: center; margin-top: 5vh;">2023 © Luma Souza - Todos os direitos reservados</div>
     </footer>
 
 </body>
@@ -197,7 +193,7 @@
                         }
 
                     } else {
-                        divFavoritos.innerHTML = "<div>Parece que não há nenhum favorito ainda. Que tal adicionar um?</div>"
+                        divFavoritos.innerHTML = "<div>Parece que não há nenhum favorito ainda. Que tal adicionar um novo?</div>"
                     }
 
 
@@ -216,7 +212,10 @@
         var nomeCha = iptAddChaFav.value;
 
         if (nomeCha == '') {
-            divMsgErroFav.innerHTML = "Campo vazio! Por favor, verifique e tente novamente"
+            divMsgErroFav.innerHTML = "<span class='aviso' style='background-color: #d4a117'>Campo vazio! Por favor, verifique e tente novamente</span>"
+            setTimeout(() => {
+                divMsgErroFav.innerHTML = "";
+            }, "5000")
         } else {
             fetch("/cha/listarCha", {
                 method: "POST",
@@ -237,7 +236,10 @@
                         //alguma coisa aqui.... não vai dar pra reusar a função
                         if (json.length > 0) {
                             if (listaCha.indexOf(json[0].nome) > -1) {
-                                divMsgErroFav.innerHTML = "Você já possui este chá em sua lista!";
+                                divMsgErroFav.innerHTML = "<span class='aviso' style='background-color: #d4a117'>Você já possui este chá em sua lista!</span>";
+                                setTimeout(() => {
+                                divMsgErroFav.innerHTML = "";
+                            }, "5000")
                                 return
                             } else {
 
@@ -258,7 +260,8 @@
 
                                     if (resposta.ok) {
                                         divFavoritos.innerHTML = ""
-                                        divMsgErroFav.innerHTML = "Chá adicionado aos favoritos"
+                                        divMsgErroFav.innerHTML = "<span class='aviso' style='background-color: #2dcf71'>Chá adicionado aos favoritos</span>"
+                                        iptAddChaFav.value = ""
                                         recuperarFavoritos()
                                         setTimeout(() => {
                                             divMsgErroFav.innerHTML = "";
@@ -274,7 +277,10 @@
                                 return false;
                             }
                         } else {
-                            divMsgErroFav.innerHTML = "O chá não foi encontrado em nossa base de dados"
+                            divMsgErroFav.innerHTML = "<span class='aviso' style='background-color: #d4a117'>O chá não foi encontrado em nossa base de dados</span>"
+                            setTimeout(() => {
+                                divMsgErroFav.innerHTML = "";
+                            }, "5000")
                         }
                     });
 
@@ -296,7 +302,10 @@
         var dataReg = iptDataReg.value;
 
         if (chaReg == '' || xicarasReg == 0 || dataReg == "") {
-            divMsgReg.innerHTML = "Campo vazio! Por favor, verifique e tente novamente"
+            divMsgReg.innerHTML = "<span class='aviso' style='background-color: #d4a117'>Campo vazio! Por favor, verifique e tente novamente</span>"
+            setTimeout(() => {
+                divMsgReg.innerHTML = "";
+            }, "5000")
         } else {
             fetch("/cha/listarCha", {
                 method: "POST",
@@ -335,7 +344,10 @@
                                 console.log("resposta: ", resposta);
 
                                 if (resposta.ok) {
-                                    divMsgReg.innerHTML = "Registro adicionado com sucesso"
+                                    divMsgReg.innerHTML = "<span class='aviso' style='background-color: #2dcf71'>Registro adicionado com sucesso</span>"
+                                    setTimeout(() => {
+                                        divMsgReg.innerHTML = "";
+                                    }, "5000")
                                     iptChaReg.value = ""
                                     iptDataReg.value = ""
                                     iptXicarasReg.value = 0
@@ -343,9 +355,6 @@
                                     // obterDadosGrafico()
                                     // obterDadosGraficoDoughnut()
                                     // recuperarFavoritos()
-                                    // setTimeout(() => {
-                                    //     divMsgErroFav.innerHTML = "";
-                                    // }, "5000")
                                 } else {
                                     alert("algo deu errado :(")
                                     throw ("Houve um erro ao tentar realizar o cadastro!");
@@ -358,7 +367,10 @@
                             return false;
 
                         } else {
-                            divMsgReg.innerHTML = "O chá não foi encontrado em nossa base de dados"
+                            divMsgReg.innerHTML = "<span class='aviso' style='background-color: #d4a117'>O chá não foi encontrado em nossa base de dados</span>"
+                            setTimeout(() => {
+                                divMsgReg.innerHTML = "";
+                            }, "5000")
                         }
                     });
 
@@ -581,6 +593,7 @@
             type: 'doughnut',
             data: dados,
             options: {
+                responsive: true,
                 plugins: {
                     legend: {
                         position: 'right'
